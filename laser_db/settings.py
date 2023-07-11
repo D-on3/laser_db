@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ymnex2%n6limpu=rb*5#!w$tqqjauy39x6ifd0)v#f9d9=*+qf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
 
 
 # Application definition
@@ -77,8 +77,12 @@ WSGI_APPLICATION = 'laser_db.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'laserparams$default',
+        'USER': 'laserparams',
+        'PASSWORD': "enodve34",
+        'HOST': 'laserparams.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
     }
 }
 
