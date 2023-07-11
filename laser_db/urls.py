@@ -19,5 +19,5 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/',include("colour_marking_base.urls"))
+    path('',include("colour_marking_base.urls"))
 ]
