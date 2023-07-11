@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% block content %} {% if form.errors %}
+<p>Please fill correct details</p>
+{% endif %} {% if next %} {% if user.is_authenticated %}
+<p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+{% else %}
+<!-- <p>Please login to see this page.</p> -->
+{% endif %} {% endif %}
+<div class="container">
+
+  <a href="/accounts/login"> go to login </a>
+  <h3 class="panel-title">Register</h3>
+  {% for form_error in form.errors %}
+    <h3>XXX{{form_error}}XXX</h3>
+  {% endfor %}
+
+  <form method="post" action="">
+    
+    {% csrf_token %}
+    {% for field in form %}
+      <div>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <div>{{ field.help_text }}</div>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    <input type="submit" value="Register" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+
+</div>
+{% endblock %}

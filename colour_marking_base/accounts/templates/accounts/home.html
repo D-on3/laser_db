@@ -1,0 +1,7 @@
+{% if user.is_authenticated %}
+  <a href="/accounts/logout"> logout </a> <br/>
+  <a href="/accounts/password"> change your password </a> <br/>
+{% else %}
+  <a href="/accounts/login">login</a> <br/>
+  <a href="/accounts/register">register</a> <br/>
+{% endif %}
