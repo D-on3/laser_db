@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from .models import Material, ColorOutcome, LaserParameter
+from .models import  ColorOutcome, LaserParameter
 from .forms import LaserParameterForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
