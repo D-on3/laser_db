@@ -8,6 +8,6 @@ urlpatterns = [
     path('delete/<int:laser_parameter_id>/', views.delete_laser_parameter, name='delete_laser_parameter'),
     path('search/', views.search, name='search'),
     path('visualization/', views.visualization, name='visualization'),
-    path('registration/', views.registration, name='registration'),
+    path('registration/', views.registration, name='register'),
     path('login/', views.login_view, name='login'),
 ]
