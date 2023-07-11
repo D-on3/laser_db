@@ -1,13 +1,17 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Material, ColorOutcome, LaserParameter
 from .forms import LaserParameterForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+
 
 @login_required(login_url='login')
 def index(request):
     laser_parameters = LaserParameter.objects.filter(user=request.user)
     context = {'laser_parameters': laser_parameters}
     return render(request, 'index.html', context)
+
 
 @login_required(login_url='login')
 def create_laser_parameter(request):
@@ -22,6 +26,7 @@ def create_laser_parameter(request):
         form = LaserParameterForm()
     context = {'form': form}
     return render(request, 'create_laser_parameter.html', context)
+
 
 @login_required(login_url='login')
 def edit_laser_parameter(request, laser_parameter_id):
@@ -39,6 +44,7 @@ def edit_laser_parameter(request, laser_parameter_id):
     else:
         return redirect('index')
 
+
 @login_required(login_url='login')
 def delete_laser_parameter(request, laser_parameter_id):
     laser_parameter = LaserParameter.objects.get(id=laser_parameter_id)
@@ -51,22 +57,23 @@ def delete_laser_parameter(request, laser_parameter_id):
     else:
         return redirect('index')
 
+
 def search(request):
     query = request.GET.get('query')
-    laser_parameters = LaserParameter.objects.filter(material__icontains=query)
+    laser_parameters = LaserParameter.objects.filter(
+        material__icontains=query)
     context = {'laser_parameters': laser_parameters, 'query': query}
     return render(request, 'search.html', context)
+
 
 def visualization(request):
     color_outcomes = ColorOutcome.objects.all()
     outcomes = [outcome.name for outcome in color_outcomes]
-    counts = [LaserParameter.objects.filter(color_outcome=outcome).count() for outcome in color_outcomes]
+    counts = [LaserParameter.objects.filter(color_outcome=outcome).count() for
+              outcome in color_outcomes]
     context = {'outcomes': outcomes, 'counts': counts}
     return render(request, 'visualization.html', context)
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
 
 def registration(request):
     if request.method == 'POST':
@@ -80,7 +87,8 @@ def registration(request):
                 error_message = 'Username is already taken. Please choose a different one.'
             else:
                 # Create a new user
-                user = User.objects.create_user(username=username, password=password)
+                user = User.objects.create_user(username=username,
+                                                password=password)
                 # Perform any additional user registration logic here
                 # For example, you might want to create a user profile
 
