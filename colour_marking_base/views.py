@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
-from models import ColorOutcome, LaserParameter
+from .models import ColorOutcome, LaserParameter
 from forms import LaserParameterForm
 
 @login_required(login_url='login')
