@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+    <h1>Search Results</h1>
+    <h2>Query: {{ query }}</h2>
+    <ul>
+        {% for laser_parameter in laser_parameters %}
+        <li>{{ laser_parameter }}</li>
+        {% empty %}
+        <li>No results found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
