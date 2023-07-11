@@ -75,6 +75,11 @@ def visualization(request):
     return render(request, 'visualization.html', context)
 
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+
+
 def registration(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -86,15 +91,21 @@ def registration(request):
             if User.objects.filter(username=username).exists():
                 error_message = 'Username is already taken. Please choose a different one.'
             else:
-                # Create a new user
-                user = User.objects.create_user(username=username,
-                                                password=password)
-                # Perform any additional user registration logic here
-                # For example, you might want to create a user profile
+                try:
+                    # Create a new user
+                    user = User.objects.create_user(username=username,
+                                                    password=password)
+                    # Perform any additional user registration logic here
+                    # For example, you might want to create a user profile or send a confirmation email
 
-                # Log in the newly registered user
-                login(request, user)
-                return redirect('index')
+                    # Log in the newly registered user
+                    login(request, user)
+
+                    # Redirect the user to a success page or the desired destination
+                    return redirect('index')
+                except Exception as e:
+                    error_message = 'An error occurred during registration. Please try again later.'
+                    # You can log the error or handle it in any way you prefer
         else:
             error_message = 'Passwords do not match.'
 
