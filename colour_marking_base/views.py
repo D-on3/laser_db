@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
 from .models import ColorOutcome, LaserParameter
-from forms import LaserParameterForm
+from .forms import LaserParameterForm
 
 @login_required(login_url='login')
 def index(request):
