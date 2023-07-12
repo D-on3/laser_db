@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-ymnex2%n6limpu=rb*5#!w$tqqjauy39x6ifd0)v#f9d9=*+qf
 DEBUG = True
 
 ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -37,7 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'colour_marking_base.apps.ColourMarkingBaseConfig',
+    "accounts",
+    "author",
+    "colors",
+    "machines",
+    "materials",
+    "profiles",
+    "results",
+
 ]
 
 MIDDLEWARE = [
@@ -55,8 +63,9 @@ ROOT_URLCONF = 'laser_db.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [
+            BASE_DIR / 'templates',  # Include the project-level templates directory
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,6 +95,13 @@ DATABASES = {
     }
 }
 
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
