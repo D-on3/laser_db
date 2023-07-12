@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     "contact",
     "articles",
     "announcements",
-    "laser_api"
+    "laser_api",
+    "landing_page"
 
 ]
 
