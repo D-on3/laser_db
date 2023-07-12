@@ -35,7 +35,7 @@ urlpatterns = [
     path("about/",include("about.urls")),
     path('contact/',include("contact.urls")),
     path("articles/",include("articles.urls")),
-    path("announcements/",include("announcements"))
+    path("announcements/",include("announcements.urls"))
 ]
 
 # Serve static files and media files only during development
