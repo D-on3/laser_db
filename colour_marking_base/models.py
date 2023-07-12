@@ -31,7 +31,7 @@ class Machine(models.Model):
     def __str__(self):
         return self.manufacturer + ' ' + self.model_machine
 
-class Results(models.Model):
+class Result(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     material = models.ForeignKey(Material, on_delete=models.CASCADE)

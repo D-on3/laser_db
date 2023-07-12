@@ -1,83 +1,102 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
-
-from .models import ColorOutcome, LaserParameter
-from .forms import LaserParameterForm
-
-@login_required(login_url='login')
-def index(request):
-    laser_parameters = LaserParameter.objects.filter(user=request.user)
-    context = {'laser_parameters': laser_parameters}
-    return render(request, 'index.html', context)
-
-
-@login_required(login_url='login')
-def create_laser_parameter(request):
-    if request.method == 'POST':
-        form = LaserParameterForm(request.POST)
-        if form.is_valid():
-            laser_parameter = form.save(commit=False)
-            laser_parameter.user = request.user
-            laser_parameter.save()
-            return redirect('index')
-    else:
-        form = LaserParameterForm()
-    context = {'form': form}
-    return render(request, 'create_laser_parameter.html', context)
-
-
-@login_required(login_url='login')
-def edit_laser_parameter(request, laser_parameter_id):
-    laser_parameter = LaserParameter.objects.get(id=laser_parameter_id)
-    if laser_parameter.user == request.user:
-        if request.method == 'POST':
-            form = LaserParameterForm(request.POST, instance=laser_parameter)
-            if form.is_valid():
-                form.save()
-                return redirect('index')
-        else:
-            form = LaserParameterForm(instance=laser_parameter)
-        context = {'form': form}
-        return render(request, 'edit_laser_parameter.html', context)
-    else:
-        return redirect('index')
-
-
-@login_required(login_url='login')
-def delete_laser_parameter(request, laser_parameter_id):
-    laser_parameter = LaserParameter.objects.get(id=laser_parameter_id)
-    if laser_parameter.user == request.user:
-        if request.method == 'POST':
-            laser_parameter.delete()
-            return redirect('index')
-        context = {'laser_parameter': laser_parameter}
-        return render(request, 'delete_laser_parameter.html', context)
-    else:
-        return redirect('index')
-
-
-def search(request):
-    query = request.GET.get('query')
-    laser_parameters = LaserParameter.objects.filter(
-        material__icontains=query)
-    context = {'laser_parameters': laser_parameters, 'query': query}
-    return render(request, 'search.html', context)
-
-
-def visualization(request):
-    color_outcomes = ColorOutcome.objects.all()
-    outcomes = [outcome.name for outcome in color_outcomes]
-    counts = [LaserParameter.objects.filter(color_outcome=outcome).count() for
-              outcome in color_outcomes]
-    context = {'outcomes': outcomes, 'counts': counts}
-    return render(request, 'visualization.html', context)
-
-
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from .models import Author, Machine, Result
+from .forms import AuthorForm, MachineForm, ResultForm
+
+
+@login_required
+def author_create(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            author = form.save(commit=False)
+            author.user = request.user
+            author.save()
+            return redirect('author_list')
+    else:
+        form = AuthorForm()
+    return render(request, 'author_form.html', {'form': form})
+
+
+@login_required
+def author_update(request, author_id):
+    author = get_object_or_404(Author, pk=author_id)
+    if author.user != request.user:
+        return redirect('author_list')
+    if request.method == 'POST':
+        form = AuthorForm(request.POST, instance=author)
+        if form.is_valid():
+            form.save()
+            return redirect('author_list')
+    else:
+        form = AuthorForm(instance=author)
+    return render(request, 'author_form.html', {'form': form})
+
+
+@login_required
+def machine_create(request):
+    if request.method == 'POST':
+        form = MachineForm(request.POST)
+        if form.is_valid():
+            machine = form.save(commit=False)
+            machine.user = request.user
+            machine.save()
+            return redirect('machine_list')
+    else:
+        form = MachineForm()
+    return render(request, 'machine_form.html', {'form': form})
+
+
+@login_required
+def machine_update(request, machine_id):
+    machine = get_object_or_404(Machine, pk=machine_id)
+    if machine.user != request.user:
+        return redirect('machine_list')
+    if request.method == 'POST':
+        form = MachineForm(request.POST, instance=machine)
+        if form.is_valid():
+            form.save()
+            return redirect('machine_list')
+    else:
+        form = MachineForm(instance=machine)
+    return render(request, 'machine_form.html', {'form': form})
+
+
+@login_required
+def result_create(request):
+    if request.method == 'POST':
+        form = ResultForm(request.POST)
+        if form.is_valid():
+            result = form.save(commit=False)
+            result.user = request.user
+            result.save()
+            return redirect('result_list')
+    else:
+        form = ResultForm()
+    return render(request, 'result_form.html', {'form': form})
+
+
+@login_required
+def result_update(request, result_id):
+    result = get_object_or_404(Result, pk=result_id)
+    if result.user != request.user:
+        return redirect('result_list')
+    if request.method == 'POST':
+        form = ResultForm(request.POST, instance=result)
+        if form.is_valid():
+            form.save()
+            return redirect('result_list')
+    else:
+        form = ResultForm(instance=result)
+    return render(request, 'result_form.html', {'form': form})
+
+
+@login_required
+def profile(request):
+    user = request.user
+    return render(request, 'profile.html', {'user': user})
 
 
 def registration(request):

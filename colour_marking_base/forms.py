@@ -1,8 +1,17 @@
-
 from django import forms
-from .models import LaserParameter
+from .models import Author, Machine, Result
 
-class LaserParameterForm(forms.ModelForm):
+class AuthorForm(forms.ModelForm):
     class Meta:
-        model = LaserParameter
-        fields = '__all__'
+        model = Author
+        fields = ['name', 'title', 'year']
+
+class MachineForm(forms.ModelForm):
+    class Meta:
+        model = Machine
+        fields = ['manufacturer', 'model', 'type']
+
+class ResultForm(forms.ModelForm):
+    class Meta:
+        model = Result
+        fields = ['author', 'machine', 'color', 'marking_speed', 'power']
