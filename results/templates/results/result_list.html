@@ -1,0 +1,12 @@
+{% extends '../../../base.html' %}
+
+{% block content %}
+  <h2>Result List</h2>
+  <ul>
+    {% for result in results %}
+      <li>{{ result }}</li>
+    {% empty %}
+      <li>No results found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
