@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
 from .views import obtain_auth_token
+from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 
-app_name = 'results'
-
+app_name = 'laser_api'
 urlpatterns = [
     path('materials/', views.MaterialListAPIView.as_view(),
          name='material-list'),
@@ -21,7 +22,7 @@ urlpatterns = [
          name='color-list'),
     path('colors/<int:pk>/', views.ColorOutcomeDetailAPIView.as_view(),
          name='color-detail'),
-    path('api-token-auth/', obtain_auth_token, name="new"),
+
 
 ]
 
