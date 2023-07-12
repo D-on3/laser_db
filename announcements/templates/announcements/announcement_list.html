@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Announcement List</h1>
+    <ul>
+        {% for announcement in announcements %}
+            <li><a href="{% url 'announcements:announcement_detail' announcement.pk %}">{{ announcement.title }}</a></li>
+        {% empty %}
+            <li>No announcements available.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

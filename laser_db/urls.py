@@ -32,6 +32,10 @@ urlpatterns = [
     path('authors/', include('author.urls')),
     path('machines/', include('machines.urls')),
     path('results/', include('results.urls')),
+    path("about/",include("about.urls")),
+    path('contact/',include("contact.urls")),
+    path("articles/",include("articles.urls")),
+    path("announcements/",include("announcements"))
 ]
 
 # Serve static files and media files only during development
