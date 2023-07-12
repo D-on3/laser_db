@@ -100,10 +100,6 @@ ROOT_URLCONF = 'laser_db.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR / 'templates',
-            # Include the project-level templates directory
-        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
