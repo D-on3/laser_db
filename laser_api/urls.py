@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import obtain_auth_token
 
 app_name = 'results'
 
@@ -20,4 +21,9 @@ urlpatterns = [
          name='color-list'),
     path('colors/<int:pk>/', views.ColorOutcomeDetailAPIView.as_view(),
          name='color-detail'),
+    path('api-token-auth/', obtain_auth_token),
+
 ]
+
+
+
