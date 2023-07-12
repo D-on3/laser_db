@@ -1,23 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Machine List</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Manufacturer</th>
-        <th>Model</th>
-        <th>Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for machine in machines %}
-      <tr>
-        <td>{{ machine.manufacturer }}</td>
-        <td>{{ machine.model }}</td>
-        <td>{{ machine.type }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <h2>Result List</h2>
+  <ul>
+    {% for result in results %}
+      <li>{{ result.material }} - {{ result.color }}</li>
+    {% empty %}
+      <li>No results found.</li>
+    {% endfor %}
+  </ul>
 {% endblock %}

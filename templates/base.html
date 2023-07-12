@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}{% endblock %}</title>
+    <title>Laser Color Marking Database</title>
 </head>
 <body>
-    <h1>Laser Color Marking System</h1>
+    <header>
+        <h1>Laser Color Marking Database</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'author_list' %}">Authors</a></li>
+                <li><a href="{% url 'machine_list' %}">Machines</a></li>
+                <li><a href="{% url 'result_list' %}">Results</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    {% block content %}{% endblock %}
-
-    <hr>
-
-    <p>&copy; {{ year }} Laser Color Marking System. All rights reserved.</p>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 </body>
 </html>

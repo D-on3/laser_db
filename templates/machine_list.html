@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Machine List</h2>
+  <ul>
+    {% for machine in machines %}
+      <li>{{ machine.manufacturer }} - {{ machine.model_machine }}</li>
+    {% empty %}
+      <li>No machines found.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

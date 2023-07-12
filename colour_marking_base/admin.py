@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Material,ColorOutcome, LaserParameter
-# Register your models here.
+from .models import Material, ColorOutcome, Author, Machine, Result
 
-admin.register(Material)
-admin.register(ColorOutcome)
-admin.register(LaserParameter)
+admin.site.register(Material)
+admin.site.register(ColorOutcome)
+admin.site.register(Author)
+admin.site.register(Machine)
+admin.site.register(Result)

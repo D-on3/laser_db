@@ -17,7 +17,10 @@
         <td>{{ author.title }}</td>
         <td>{{ author.year }}</td>
       </tr>
-      {% endfor %}
+    {% empty %}
+      <li>No authors found.</li>
+    {% endfor %}
     </tbody>
   </table>
 {% endblock %}
+
