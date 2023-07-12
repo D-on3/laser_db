@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from authors.models import Author
+from author.models import Author
 from machines.models import Machine
 from materials.models import Material
 from colors.models import ColorOutcome
