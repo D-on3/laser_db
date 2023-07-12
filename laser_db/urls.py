@@ -35,7 +35,9 @@ urlpatterns = [
     path("about/",include("about.urls")),
     path('contact/',include("contact.urls")),
     path("articles/",include("articles.urls")),
-    path("announcements/",include("announcements.urls"))
+    path("announcements/",include("announcements.urls")),
+    path("api/",include("laser_api.urls")),
+    path("",include("landing_page.urls"))
 ]
 
 # Serve static files and media files only during development
