@@ -4,4 +4,5 @@ sqlparse==0.4.4
 typing_extensions==4.7.1
 Pillow==10.0.0
 djangorestframework==3.14.0
-django-allauth==0.54.0
+django-rest-auth==0.9.5
+djangorestframework_simplejwt==5.2.2
