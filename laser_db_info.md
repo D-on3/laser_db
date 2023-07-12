@@ -2124,7 +2124,7 @@ To enhance the user experience, you can implement user authentication and author
        else:
            form = UserCreationForm()
        context = {'form': form}
-       return render(request, 'registration.html', context)
+       return render(request, 'accounts/templates/accounts/registration.html', context)
 
    def login_view(request):
        if request.method == 'POST':
@@ -2137,8 +2137,8 @@ To enhance the user experience, you can implement user authentication and author
            else:
                error_message = 'Invalid username or password'
                context = {'error_message': error_message}
-               return render(request, 'login.html', context)
-       return render(request, 'login.html')
+               return render(request, 'accounts/templates/accounts/login.html', context)
+       return render(request, 'accounts/templates/accounts/login.html')
    ```
 
 4. Create the corresponding HTML templates for user registration and login:
@@ -2534,15 +2534,18 @@ class LaserParameterForm(forms.ModelForm):
 ```
 
 `views.py`:
+
 ```python
 from django.shortcuts import render, redirect
 from .models import Material, ColorOutcome, LaserParameter
 from .forms import LaserParameterForm
 
+
 def index(request):
     laser_parameters = LaserParameter.objects.all()
     context = {'laser_parameters': laser_parameters}
     return render(request, 'index.html', context)
+
 
 def create_laser_parameter(request):
     if request.method == 'POST':
@@ -2554,6 +2557,7 @@ def create_laser_parameter(request):
         form = LaserParameterForm()
     context = {'form': form}
     return render(request, 'create_laser_parameter.html', context)
+
 
 def edit_laser_parameter(request, laser_parameter_id):
     laser_parameter = LaserParameter.objects.get(id=laser_parameter_id)
@@ -2567,6 +2571,7 @@ def edit_laser_parameter(request, laser_parameter_id):
     context = {'form': form}
     return render(request, 'edit_laser_parameter.html', context)
 
+
 def delete_laser_parameter(request, laser_parameter_id):
     laser_parameter = LaserParameter.objects.get(id=laser_parameter_id)
     if request.method == 'POST':
@@ -2575,13 +2580,15 @@ def delete_laser_parameter(request, laser_parameter_id):
     context = {'laser_parameter': laser_parameter}
     return render(request, 'delete_laser_parameter.html', context)
 
+
 def registration(request):
     # Handle user registration logic here
-    return render(request, 'registration.html')
+    return render(request, 'accounts/templates/accounts/registration.html')
+
 
 def login_view(request):
     # Handle user login logic here
-    return render(request, 'login.html')
+    return render(request, 'accounts/templates/accounts/login.html')
 ```
 
 `urls.py`:
