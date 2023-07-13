@@ -7,3 +7,5 @@
 /results/migrations/0001_initial.py
 /.idea/
 /venv/
+/author/migrations/0001_initial.py
+/colors/migrations/0001_initial.py
