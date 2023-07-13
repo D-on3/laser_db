@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ColorOutcome
+from .models import Color
 # Register your models here.
 
-admin.register(ColorOutcome)
+admin.register(Color)
