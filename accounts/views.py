@@ -8,10 +8,11 @@ def registration(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('accounts:login')
     else:
         form = RegistrationForm()
     return render(request, 'accounts/registration.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -20,7 +21,7 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('profile')
+            return redirect('accounts:profile')
         else:
             error_message = 'Invalid username or password.'
             return render(request, 'accounts/login.html', {'error_message': error_message})

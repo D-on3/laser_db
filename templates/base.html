@@ -78,7 +78,18 @@
 
   {% bootstrap_javascript %}
   <script src="{% static 'js/scripts.js' %}"></script>
+    <!-- Popup Trigger -->
+    <button onclick="openPopup()">Open Popup</button>
 
+    <!-- Popup Overlay -->
+    <div id="popupOverlay" class="popup-overlay">
+        <!-- Popup Content -->
+        <div class="popup-content">
+            <h2>Popup Content</h2>
+            <p>This is a popup example in Django template.</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
 <footer class="footer">
   <div class="container">
     <div class="row">
