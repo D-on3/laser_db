@@ -1,6 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>About Page</h1>
-    <p>This is the about page of our website.</p>
+<section id="about" class="section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <h2 class="section-title text-center">About LaserParams</h2>
+        <p class="section-description text-center">
+          LaserParams is an open-source platform that aims to unify laser technology parameters for future collaborations. With a vision of fostering innovation and knowledge sharing, LaserParams provides a centralized repository for laser-related data, specifications, and settings. This platform enables researchers, engineers, and enthusiasts to access and contribute to a comprehensive collection of laser parameters, facilitating collaboration and accelerating technological advancements.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <h2 class="section-title text-center">Our Teams</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card">
+{#          <img src="{% static 'images/person1.jpg' %}" class="card-img-top" alt="Person 1">#}
+          <div class="card-body">
+            <h5 class="card-title">John Doe</h5>
+            <p class="card-text">Position: Laser Expert</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+{#          <img src="{% static 'images/person2.jpg' %}" class="card-img-top" alt="Person 2">#}
+          <div class="card-body">
+            <h5 class="card-title">Jane Smith</h5>
+            <p class="card-text">Position: Developer</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card">
+{#          <img src="{% static 'images/person3.jpg' %}" class="card-img-top" alt="Person 3">#}
+          <div class="card-body">
+            <h5 class="card-title">David Johnson</h5>
+            <p class="card-text">Position: Researcher</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
