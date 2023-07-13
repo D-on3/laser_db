@@ -11,7 +11,7 @@ def registration(request):
             return redirect('login')
     else:
         form = RegistrationForm()
-    return render(request, 'templates/accounts/registration.html', {'form': form})
+    return render(request, 'accounts/registration.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
@@ -23,10 +23,10 @@ def login_view(request):
             return redirect('profile')
         else:
             error_message = 'Invalid username or password.'
-            return render(request, 'templates/accounts/login.html', {'error_message': error_message})
+            return render(request, 'accounts/login.html', {'error_message': error_message})
     else:
-        return render(request, 'templates/accounts/login.html')
+        return render(request, 'accounts/login.html')
 
 @login_required
 def profile(request):
-    return render(request, 'templates/accounts/profile.html')
+    return render(request, 'accounts/profile.html')
