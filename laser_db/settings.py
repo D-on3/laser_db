@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "machines",
     "materials",
     "profiles",
-    "parameters",
+
     "results",
     "about",
     "contact",
