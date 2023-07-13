@@ -3,7 +3,7 @@ from rest_framework import generics
 from materials.models import Material
 from author.models import Author
 from machines.models import Machine
-from colors.models import ColorOutcome
+from colors.models import Color
 from .serializers import MaterialSerializer, AuthorSerializer, MachineSerializer, ColorOutcomeSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
@@ -48,9 +48,9 @@ class MachineDetailAPIView(generics.RetrieveAPIView):
     serializer_class = MachineSerializer
 
 class ColorOutcomeListAPIView(generics.ListAPIView):
-    queryset = ColorOutcome.objects.all()
+    queryset = Color.objects.all()
     serializer_class = ColorOutcomeSerializer
 
 class ColorOutcomeDetailAPIView(generics.RetrieveAPIView):
-    queryset = ColorOutcome.objects.all()
+    queryset = Color.objects.all()
     serializer_class = ColorOutcomeSerializer

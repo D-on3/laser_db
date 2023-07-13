@@ -1,7 +1,7 @@
 from materials.models import Material
 from author.models import Author
 from machines.models import Machine
-from colors.models import ColorOutcome
+from colors.models import Color
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
@@ -32,5 +32,5 @@ class MachineSerializer(serializers.ModelSerializer):
 
 class ColorOutcomeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ColorOutcome
+        model = Color
         fields = '__all__'
