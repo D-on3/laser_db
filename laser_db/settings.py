@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'rest_framework_simplejwt.token_blacklist',
     'django_bootstrap5',
-    "landing_page",
     "pages"
 
 

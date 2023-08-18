@@ -26,7 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Include the URLs for your apps
-    path('', include('pages.urls')),
+    path('', include('pages.urls',namespace='pages')),
+    path('auth/', include('authentication.urls', namespace='authentication')),
 
 
 ]
