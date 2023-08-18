@@ -1,0 +1,25 @@
+{% extends 'base.html' %}  <!-- Replace 'base.html' with your base template if applicable -->
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Add Laser Marking Parameters</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-3">Add Parameters</button>
+    </form>
+</div>
+
+
+    <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endblock %}
+

@@ -26,20 +26,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Include the URLs for your apps
-    path('accounts/', include('accounts.urls')),
-    path('materials/', include('materials.urls')),
-    path('colors/', include('colors.urls')),
-    path('authors/', include('author.urls')),
-    path('machines/', include('machines.urls')),
-    path('results/', include('results.urls')),
-    path("about/",include("about.urls")),
-    path('contact/',include("contact.urls")),
-    path("articles/",include("articles.urls")),
-    path("announcements/",include("announcements.urls")),
-    path('api/', include('laser_api.urls')),
-    path("",include("landing_page.urls")),
+    path('', include('pages.urls')),
+
+
 ]
 
 # Serve static files and media files only during development
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

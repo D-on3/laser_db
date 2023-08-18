@@ -27,7 +27,6 @@ DEBUG = True
 # ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,27 +41,15 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    "authentication",
     'rest_auth',
     'rest_auth.registration',
     'rest_framework_simplejwt.token_blacklist',
     'django_bootstrap5',
-    "accounts",
-    "author",
-    "colors",
-    "machines",
-    "materials",
-    "profiles",
-    "results",
-    "about",
-    "contact",
-    "articles",
-    "announcements",
-    "laser_api",
     "landing_page",
-
+    "pages"
 
 ]
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -78,14 +65,15 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'ROTATE_REFRESH_TOKENS': True,
 }
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
 SITE_ID = 1
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
