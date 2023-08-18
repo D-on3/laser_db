@@ -29,25 +29,45 @@
                     <a class="nav-link"
                        href="{% url 'pages:home' %}">Home</a>
                 </li>
-                {#                <li class="nav-item">#}
-                {#                    <a class="nav-link" href="{% url 'contact:contact' %}">Contact</a>#}
-                {#                </li>#}
                 <li class="nav-item">
-                    <a class="nav-link"></a>
-                    {#                       href="{% url 'about:about' %}">About</a>#}
+                    <a class="nav-link"
+                       href="{% url 'pages:contact' %}">Contact</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% url 'pages:about' %}">About</a>
+                </li>
+
+
                 {% if user.is_authenticated %}
+
                     <li class="nav-item">
-                        <a class="nav-link">
-                            {#                           href="{% url 'results:result_list' %}">Result List</a>#}
+
+                        <a class="nav-link"
+                           href="{% url 'authentication:profile' %}">Profile</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link"></a>
-                        {#                           href="{% url 'results:result_create' %}">Result Create</a>#}
+
+
+
+                                            <a class="nav-link"
+                           href="{% url 'authentication:profile' %}">Profile</a>
+                    </li>
+
+
+                                            <a class="nav-link"
+                           href="{% url 'authentication:profile' %}">Profile</a>
+                    </li>
+
+                                            <a class="nav-link"
+                           href="{% url 'authentication:profile' %}">Profile</a>
+                    </li>
+                                            <a class="nav-link"
+                           href="{% url 'authentication:logout' %}">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        {#                        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>#}
+                        <a class="nav-link"
+                           href="{% url 'authentication:login' %}">Login</a>
                     </li>
                 {% endif %}
             </ul>

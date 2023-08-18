@@ -25,10 +25,10 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('profile')
+            return redirect('authentication:profile')
     return render(request, 'authentication/login.html')
 
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('login')
+    return redirect('authentication:login')
