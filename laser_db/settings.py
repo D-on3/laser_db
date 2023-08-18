@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "landing_page",
     "pages"
 
+
 ]
 
 REST_FRAMEWORK = {
