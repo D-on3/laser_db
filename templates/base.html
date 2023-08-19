@@ -47,21 +47,19 @@
                            href="{% url 'authentication:profile' %}">Profile</a>
                     </li>
 
+                    <li class="nav-item">
 
-
-                                            <a class="nav-link"
-                           href="{% url 'authentication:profile' %}">Profile</a>
+                        <a class="nav-link"
+                           href="{% url 'pages:search_laser_sources' %}">Search Laser Source</a>
                     </li>
 
-
-                                            <a class="nav-link"
-                           href="{% url 'authentication:profile' %}">Profile</a>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="{% url 'pages:laser_source_list' %}">laser source list</a>
                     </li>
 
-                                            <a class="nav-link"
-                           href="{% url 'authentication:profile' %}">Profile</a>
-                    </li>
-                                            <a class="nav-link"
+                    <li class="nav-item">
+                        <a class="nav-link"
                            href="{% url 'authentication:logout' %}">Logout</a>
                     </li>
                 {% else %}

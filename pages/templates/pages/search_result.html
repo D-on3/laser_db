@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Search Results</h1>
+<ul>
+    {% for laser_source in laser_sources %}
+        <li>
+            Color: {{ laser_source.color_red }}, {{ laser_source.color_green }}, {{ laser_source.color_blue }}
+            <!-- Display other parameters like machine_type, author, etc. -->
+        </li>
+    {% empty %}
+        <li>No results found.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

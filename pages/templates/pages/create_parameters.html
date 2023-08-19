@@ -1,0 +1,10 @@
+{% extends 'base.html' %}  <!-- Extend your base template -->
+
+{% block content %}
+  <h2>Create Laser Marking Parameters</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Parameters</button>
+  </form>
+{% endblock %}

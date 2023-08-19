@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pickr@1.8.2/dist/themes/classic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/pickr@1.8.2/dist/pickr.min.js"></script>
+    <title>Color Picker Example</title>
+</head>
+<body>
+    <div id="color-picker"></div>
+    <div id="closest-mark">
+        Closest Mark: <span id="mark-name">N/A</span>
+    </div>
+
+    <script>
+        const colorPicker = Pickr.create({
+            el: '#color-picker',
+            theme: 'classic',
+            swatches: [
+                'rgba(244, 67, 54, 1)',
+                'rgba(233, 30, 99, 1)',
+                'rgba(156, 39, 176, 1)',
+                'rgba(103, 58, 183, 1)',
+                'rgba(63, 81, 181, 1)',
+                'rgba(33, 150, 243, 1)',
+                'rgba(3, 169, 244, 1)',
+                'rgba(0, 188, 212, 1)',
+                'rgba(0, 150, 136, 1)',
+                'rgba(76, 175, 80, 1)',
+                'rgba(139, 195, 74, 1)',
+                'rgba(205, 220, 57, 1)',
+                'rgba(255, 235, 59, 1)',
+                'rgba(255, 193, 7, 1)'
+            ],
+            components: {
+                // Disabling the default color preview
+                preview: false,
+                // Disabling the default opacity slider
+                opacity: false,
+                // Displaying only the saturation and hue components
+                interaction: {
+                    input: true,
+                    cancel: true,
+                    save: true
+                }
+            }
+        });
+
+        const markNameElement = document.getElementById('mark-name');
+
+        colorPicker.on('save', (color) => {
+            const rgbaColor = color.toRGBA();
+            const red = rgbaColor[0];
+            const green = rgbaColor[1];
+            const blue = rgbaColor[2];
+
+            // Assuming you have a function to find the closest mark based on RGB values
+            const closestMark = findClosestMark(red, green, blue);
+
+            // Update the closest mark name
+            markNameElement.textContent = closestMark;
+        });
+
+        // Replace this with your actual logic to find the closest mark based on RGB values
+        function findClosestMark(red, green, blue) {
+            // Your implementation here
+            // This is just a placeholder example
+            const marks = [
+                { name: 'Mark A', color: [255, 0, 0] },
+                { name: 'Mark B', color: [0, 255, 0] },
+                { name: 'Mark C', color: [0, 0, 255] }
+            ];
+
+            let closestMark = null;
+            let closestDistance = Number.MAX_VALUE;
+
+            for (const mark of marks) {
+                const distance = calculateDistance(red, green, blue, mark.color[0], mark.color[1], mark.color[2]);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestMark = mark.name;
+                }
+            }
+
+            return closestMark;
+        }
+
+        function calculateDistance(r1, g1, b1, r2, g2, b2) {
+            // Simple Euclidean distance calculation
+            return Math.sqrt(Math.pow(r2 - r1, 2) + Math.pow(g2 - g1, 2) + Math.pow(b2 - b1, 2));
+        }
+    </script>
+</body>
+</html>

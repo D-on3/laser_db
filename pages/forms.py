@@ -1,7 +1,7 @@
 from django import forms
-from .models import LaserMarkingParameters, LaserColorMarking
+from .models import LaserMarkingParameters
 
-class LaserMarkingForm(forms.ModelForm):
+class LaserMarkingParametersForm(forms.ModelForm):
     class Meta:
         model = LaserMarkingParameters
-        fields = '__all__'  # You can customize which fields to include
+        fields = '__all__'  # Include all fields from the model

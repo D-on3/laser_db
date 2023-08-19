@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Laser Source List{% endblock %}
+
+{% block content %}
+    <h1>Laser Source List</h1>
+    
+    <form method="GET" action="{% url 'pages:search_laser_sources' %}">
+        <div class="mb-3">
+            <label for="color_red" class="form-label">Red Channel</label>
+            <input type="number" class="form-control" id="color_red" name="color_red" min="0" max="255">
+        </div>
+        <div class="mb-3">
+            <label for="color_green" class="form-label">Green Channel</label>
+            <input type="number" class="form-control" id="color_green" name="color_green" min="0" max="255">
+        </div>
+        <div class="mb-3">
+            <label for="color_blue" class="form-label">Blue Channel</label>
+            <input type="number" class="form-control" id="color_blue" name="color_blue" min="0" max="255">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <h2>Filtered Laser Sources</h2>
+    {% if laser_sources %}
+        <ul>
+            {% for laser_source in laser_sources %}
+                <li>
+                    <a href="{% url 'pages:laser_source_detail' laser_source.id %}">
+                        {{ laser_source.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No laser sources match the specified color channels.</p>
+    {% endif %}
+    
+    <h2>All Laser Sources</h2>
+    <ul>
+        {% for laser_source in all_laser_sources %}
+            <li>
+                <a href="{% url 'pages:laser_source_detail' laser_source.id %}">
+                    {{ laser_source.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

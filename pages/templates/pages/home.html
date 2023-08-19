@@ -1,28 +1,54 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-    {% load static %}
-<section class="u-clearfix u-image u-shading u-section-1" id="sec-4760"
-         data-image-width="1024" data-image-height="614"
-         style="background-image: url('{% static 'images/laser-marking-metal-product-edited.jpg' %}')">
-    <div class="u-clearfix u-sheet u-sheet-1">
-        <div class="u-container-style u-expanded-width-sm u-group u-similar-fill u-group-1">
-            <div class="u-container-layout u-valign-middle-sm u-container-layout-1">
-                <h3 class="u-align-center u-text u-text-palette-3-light-1 u-text-1">
-                    LaserParams</h3>
-                <p class="u-align-center u-custom-font u-font-arial u-text u-text-2"
-                   spellcheck="false">is an open-source platform that aims to
-                    unify laser technology parameters for future
-                    collaborations. With a vision of fostering innovation and
-                    knowledge sharing, LaserParams provides a centralized
-                    repository for laser-related data, specifications, and
-                    settings. This platform enables researchers, engineers,
-                    and enthusiasts to access and contribute to a
-                    comprehensive collection of laser parameters, facilitating
-                    collaboration and accelerating technological
-                    advancements.</p>
+    <section class="u-clearfix u-image u-shading u-section-1" id="sec-4760"
+             data-image-width="1024" data-image-height="614"
+             style="background-image: url('{% static 'images/laser-marking-metal-product-edited.jpg' %}')">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-container-style u-expanded-width-sm u-group u-similar-fill u-group-1">
+                <div class="u-container-layout u-valign-middle-sm u-container-layout-1">
+                    <h3 class="u-align-center u-text u-text-palette-3-light-1 u-text-1">
+                        LaserParams</h3>
+                    <h1>Welcome to Laser Database: Your Source for Laser Marking Solutions</h1>
+                    <p>Discover a world of laser marking possibilities with Laser Database. Whether you're a professional in the laser industry or a curious enthusiast, our platform offers a comprehensive collection of laser sources and marking parameters. Experience the power of precision and creativity with our easy-to-use search tools and detailed information.</p>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <section>
+        <h2>What Laser Database Offers:</h2>
+        <ul>
+            <li>
+                <h3>Explore Laser Sources</h3>
+                <p>Browse through a wide range of laser sources, from diode lasers to fiber lasers. Find the perfect fit for your laser marking needs.</p>
+            </li>
+            <li>
+                <h3>Search by Color</h3>
+                <p>Our advanced color-based search helps you find laser sources based on RGB color values. Find the exact laser for your unique applications.</p>
+            </li>
+            <li>
+                <h3>Custom Marking Parameters</h3>
+                <p>Dive into detailed marking parameters and settings for each laser source. Get insights into power levels, wavelengths, and more.</p>
+            </li>
+            <li>
+                <h3>Expert Insights</h3>
+                <p>Benefit from expert articles and resources on laser technology. Stay up-to-date with the latest trends and innovations in the laser marking field.</p>
+            </li>
+            <li>
+                <h3>User-Friendly Interface</h3>
+                <p>Our intuitive interface makes it effortless to search, explore, and compare laser sources and marking parameters.</p>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Start Exploring Today:</h2>
+        <p>Join the Laser Database community and unlock a world of laser marking solutions. Whether you're creating intricate designs, industrial markings, or artistic projects, Laser Database has you covered. Experience the future of laser technology today.</p>
+        <h3>Ready to Get Started? <a href="{% url 'authentication:login' %}">Explore Laser Database Now!</a></h3>
+    </section>
+
+    <p class="u-align-center u-custom-font u-font-arial u-text u-text-2" spellcheck="false">
+        LaserParams is an open-source platform that aims to unify laser technology parameters for future collaborations. With a vision of fostering innovation and knowledge sharing, LaserParams provides a centralized repository for laser-related data, specifications, and settings. This platform enables researchers, engineers, and enthusiasts to access and contribute to a comprehensive collection of laser parameters, facilitating collaboration and accelerating technological advancements.
+    </p>
 {% endblock %}

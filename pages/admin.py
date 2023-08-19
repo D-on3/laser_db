@@ -1,11 +1,9 @@
 from django.contrib import admin
 
-from .models import LaserSource,LaserColorMarking,LaserMarkingParameters,MetalMaterial
+from .models import LaserSource, LaserMarkingParameters, \
+    Material
 
+admin.site.register(LaserSource)
+admin.site.register(LaserMarkingParameters)
 
-
-admin.register(LaserSource)
-admin.register(LaserMarkingParameters)
-
-admin.register(LaserColorMarking)
-admin.register(MetalMaterial)
+admin.site.register(Material)
