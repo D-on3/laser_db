@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_api_key',
     'rest_framework.authtoken',
     'django.contrib.sites',
     'allauth',
@@ -46,7 +47,8 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'rest_framework_simplejwt.token_blacklist',
     'django_bootstrap5',
-    "pages"
+    "pages",
+    'laser_color_marking_api'
 
 
 ]

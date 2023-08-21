@@ -8,3 +8,4 @@ django-rest-auth==0.9.5
 djangorestframework_simplejwt==5.2.2
 django_bootstrap5
 django-allauth==0.54.0
+djangorestframework-api-key

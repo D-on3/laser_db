@@ -26,7 +26,7 @@ def create_machine(request):
         if form.is_valid():
             machine = form.save()  # Save the form data to create a new machine
             return redirect(
-                'machine_list')  # Redirect to a page that lists machines
+                'pages:machine_list')  # Redirect to a page that lists machines
     else:
         form = LaserSourceForm()
 
@@ -43,7 +43,7 @@ def create_laser_marking_parameters(request):
             parameters.date_published = timezone.now()  # Set current date as date_published
             parameters.research_date = timezone.now()  # Set current date as research_date
             parameters.save()
-            return redirect('success_page')  # Redirect to a success page
+            return redirect('pages:success_page')  # Redirect to a success page
     else:
         form = LaserMarkingParametersForm()
 
@@ -85,7 +85,7 @@ def update_laser_source(request, pk):
         form = LaserSourceForm(request.POST, instance=laser_source)
         if form.is_valid():
             form.save()
-            return redirect('laser_source_detail', pk=pk)
+            return redirect('pages:laser_source_detail', pk=pk)
     else:
         form = LaserSourceForm(instance=laser_source)
     return render(request, 'pages/update_laser_source.html',
@@ -97,7 +97,7 @@ def delete_laser_source(request, pk):
     laser_source = get_object_or_404(LaserSource, pk=pk)
     if request.method == 'POST':
         laser_source.delete()
-        return redirect('laser_source_list')
+        return redirect('pages:laser_source_list')
     return render(request, 'pages/delete_laser_source.html',
                   {'laser_source': laser_source})
 
@@ -140,7 +140,7 @@ def create_laser_marking_parameters(request):
         form = LaserMarkingParametersForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('laser_marking_parameters_list')
+            return redirect('pages:laser_marking_parameters_list')
     else:
         form = LaserMarkingParametersForm()
     return render(request, 'pages/create_laser_marking_parameters.html',
@@ -155,7 +155,7 @@ def update_laser_marking_parameters(request, pk):
                                           instance=marking_parameters)
         if form.is_valid():
             form.save()
-            return redirect('laser_marking_parameters_detail', pk=pk)
+            return redirect('pages:laser_marking_parameters_detail', pk=pk)
     else:
         form = LaserMarkingParametersForm(instance=marking_parameters)
     return render(request, 'pages/update_laser_marking_parameters.html',
@@ -167,7 +167,7 @@ def delete_laser_marking_parameters(request, pk):
     marking_parameters = get_object_or_404(LaserMarkingParameters, pk=pk)
     if request.method == 'POST':
         marking_parameters.delete()
-        return redirect('laser_marking_parameters_list')
+        return redirect('pages:laser_marking_parameters_list')
     return render(request, 'pages/delete_laser_marking_parameters.html',
                   {'marking_parameters': marking_parameters})
 

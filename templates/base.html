@@ -42,7 +42,7 @@
                 {% if user.is_authenticated %}
 
 <li class="nav-item">
-                    <a class="nav-link btn btn-success" href="{% url 'pages:create_machine' %}">Create Machine</a>
+                    <a class="nav-link btn btn-success" href="{% url 'pages:laser_source_list' %}">Create Machine</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link btn btn-success" href="{% url 'pages:create_parameters' %}">Create Parameters</a>
@@ -59,6 +59,18 @@
                 <li class="nav-item">
                     <a class="nav-link btn btn-success" href="{% url 'pages:create_laser_marking_parameters' %}">Create Marking Parameters</a>
                 </li>
+
+                     <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dataDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Data
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dataDropdown">
+                    <a class="dropdown-item" href="{% url 'laser_color_marking_api:generate_api_key' %}">Generate Key</a>
+                    <a class="dropdown-item" href="{% url 'laser_color_marking_api:laser_source_list' %}">List Machines</a>
+                </div>
+            </li>
+
 
 
                     <li class="nav-item">
