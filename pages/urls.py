@@ -35,4 +35,5 @@ urlpatterns = [
     path('delete_laser_marking_parameters/<int:pk>/',
          views.delete_laser_marking_parameters,
          name='delete_laser_marking_parameters'),
+    path('search_by_color/', views.search_by_color, name='search_by_color'),
 ]
