@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Machine List</h2>
+  <ul>
+    {% for machine in machines %}
+      <li><a href="{% url 'pages:machine_detail' machine.pk %}">{{ machine.name }}</a></li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'pages:create_machine' %}">Create New Machine</a>
+{% endblock %}

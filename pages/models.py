@@ -44,3 +44,6 @@ class LaserMarkingParameters(models.Model):
 
     def __str__(self):
         return f"{self.material} - {self.laser_source}"
+
+
+# Repeat similar views for LaserSource and LaserMarkingParameters models

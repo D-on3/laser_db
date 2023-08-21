@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>List of Laser Marking Parameters</h1>
+    <ul>
+        {% for marking_parameters in marking_parameters %}
+            <li>{{ marking_parameters.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

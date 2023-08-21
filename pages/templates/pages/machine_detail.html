@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Machine Detail</h2>
+  <p>Name: {{ machine.name }}</p>
+  <p>Description: {{ machine.description }}</p>
+  <!-- Display other machine attributes as needed -->
+  <a href="{% url 'pages:update_machine' machine.pk %}">Update</a>
+  <a href="{% url 'pages:delete_machine' machine.pk %}">Delete</a>
+{% endblock %}

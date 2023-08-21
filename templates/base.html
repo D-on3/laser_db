@@ -26,14 +26,14 @@
              id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link"
+                    <a class="nav-link btn btn-success"
                        href="{% url 'pages:home' %}">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-link btn btn-success">
                     <a class="nav-link"
                        href="{% url 'pages:contact' %}">Contact</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-link btn btn-success">
                     <a class="nav-link"
                        href="{% url 'pages:about' %}">About</a>
                 </li>
@@ -41,27 +41,38 @@
 
                 {% if user.is_authenticated %}
 
+<li class="nav-item">
+                    <a class="nav-link btn btn-success" href="{% url 'pages:create_machine' %}">Create Machine</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" href="{% url 'pages:create_parameters' %}">Create Parameters</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" href="{% url 'pages:laser_source_list' %}">List Laser Sources</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" href="{% url 'pages:create_laser_source' %}">Create Laser Source</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" href="{% url 'pages:laser_marking_parameters_list' %}">List Marking Parameters</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-success" href="{% url 'pages:create_laser_marking_parameters' %}">Create Marking Parameters</a>
+                </li>
+
+
                     <li class="nav-item">
 
                         <a class="nav-link"
                            href="{% url 'authentication:profile' %}">Profile</a>
                     </li>
 
-                    <li class="nav-item">
-
-                        <a class="nav-link"
-                           href="{% url 'pages:search_laser_sources' %}">Search Laser Source</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="{% url 'pages:laser_source_list' %}">laser source list</a>
-                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'authentication:logout' %}">Logout</a>
                     </li>
+
                 {% else %}
                     <li class="nav-item">
                         <a class="nav-link"
@@ -72,7 +83,20 @@
         </div>
     </div>
 </nav>
-
+    <div class="slider">
+        <div class="slide">
+            <h2>Slide 1 Header</h2>
+            <img src="static/images/header_section.jpg" alt="Slide 1">
+        </div>
+        <div class="slide">
+            <h2>Slide 2 Header</h2>
+            <img src="static/images/header_section.jpg" alt="Slide 2">
+        </div>
+        <div class="slide">
+            <h2>Slide 3 Header</h2>
+            <img src="static/images/heder_section_2.jpg" alt="Slide 3">
+        </div>
+    </div>
 {% block content %}
 {% endblock %}
 
