@@ -9,3 +9,6 @@ djangorestframework_simplejwt==5.2.2
 django_bootstrap5
 django-allauth==0.54.0
 djangorestframework-api-key
+django-bootstrap4
+django-avatar
+django-countries

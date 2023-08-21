@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        <h2 class="mb-3">Login via Email</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email|add_class:'form-control' }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label_tag }}
+                {{ form.password|add_class:'form-control' }}
+            </div>
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
+    </div>
+{% endblock %}

@@ -2,7 +2,10 @@
 
 {% block content %}
 <h2>Welcome, {{ user.username }}</h2>
-<p>Your profile information:</p>
+    <p>Your profile information:</p>
+    <h1>Your Profile</h1>
+<p>Your API Token: {{ profile.api_token }}</p>
+
 <p>Bio: {{ user.userprofile.bio }}</p>
 <a href="{% url 'authentication:logout' %}">Logout</a>
 {% endblock %}

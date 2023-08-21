@@ -1,0 +1,7 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+  <h2>Activation Email Sent</h2>
+  <p>An activation email has been sent to your email address. Please check your inbox and follow the instructions to activate your profile.</p>
+  <p><a href="{% url 'account:login' %}">Back to Login</a></p>
+{% endblock %}

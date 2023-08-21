@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Registration Complete</h2>
+  <p>Your registration is complete! An activation email has been sent to your email address. Please check your inbox and follow the instructions to activate your profile.</p>
+  <p><a href="{% url 'accounts:login' %}">Back to Login</a></p>
+{% endblock %}

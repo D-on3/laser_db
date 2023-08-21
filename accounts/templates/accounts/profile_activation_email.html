@@ -1,0 +1,9 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+  <h2>Activate Your Profile</h2>
+  <p>Hello {{ user.username }},</p>
+  <p>Click the link below to activate your profile:</p>
+  <p><a href="{{ domain }}{% url 'account:activate_profile' uid uid token token %}">Activate Profile</a></p>
+  <p>If you did not request this activation, please ignore this email.</p>
+{% endblock %}

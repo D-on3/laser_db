@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-6 offset-md-3">
+        <h2 class="mb-3">Change Email Request</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="new_email">New Email:</label>
+                <input class="form-control" type="email" name="new_email" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+    </div>
+{% endblock %}

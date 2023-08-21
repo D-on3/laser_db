@@ -48,8 +48,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django_bootstrap5',
     "pages",
-    'laser_color_marking_api'
-
+    'laser_color_marking_api',
+    "accounts",
+    "bootstrap4",
 
 ]
 
@@ -72,10 +73,11 @@ AUTHENTICATION_BACKENDS = [
 ]
 SITE_ID = 1
 
+# Configure django-allauth for email confirmation
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Require email confirmation
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
