@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">{% trans 'Log in' %}</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <div class="text-center">
+                            <button class="btn btn-primary btn-block">{% trans 'Log in' %}</button>
+                        </div>
+                    </form>
+                    <hr>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="{% url 'accounts:restore_password' %}">{% trans 'Forgot your password?' %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'accounts:remind_username' %}">{% trans 'Forgot your username?' %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'accounts:resend_activation_code' %}">{% trans 'Resend an activation code' %}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

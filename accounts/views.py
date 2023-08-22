@@ -1,471 +1,331 @@
-from django.contrib.auth import authenticate, login, logout, \
-    update_session_auth_hash
-
-from django.utils.encoding import force_bytes, force_str
-
-from django.utils.http import urlsafe_base64_encode
-from django.template.loader import render_to_string
-from django.core.mail import send_mail
-from django.contrib.sites.shortcuts import get_current_site
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
-from .models import CustomUser
-from .forms import (
-    LoginForm,
-    LoginEmailForm,
-    LoginEmailOrUsernameForm,
-    RegistrationForm,
-    ResetPasswordEmailForm,
-    ResendActivationForm,
-    ChangePasswordForm,
-    ChangeEmailForm,
-    ChangeProfileForm
-)
-from django.urls import reverse_lazy
-from django.views.generic import FormView
-from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_decode
-from django.utils.encoding import force_str
-from django.contrib.auth.forms import SetPasswordForm
 from django.contrib import messages
+from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import (
+    LogoutView as BaseLogoutView, PasswordChangeView as BasePasswordChangeView,
+    PasswordResetDoneView as BasePasswordResetDoneView, PasswordResetConfirmView as BasePasswordResetConfirmView,
+)
+from django.shortcuts import get_object_or_404, redirect
+from django.utils.crypto import get_random_string
+from django.utils.decorators import method_decorator
+from django.utils.http import url_has_allowed_host_and_scheme as is_safe_url
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.utils.translation import gettext_lazy as _
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.generic import View, FormView
+from django.conf import settings
 
-User = get_user_model()
+from .utils import (
+    send_activation_email, send_reset_password_email, send_forgotten_username_email, send_activation_change_email,
+)
+from .forms import (
+    SignInViaUsernameForm, SignInViaEmailForm, SignInViaEmailOrUsernameForm, SignUpForm,
+    RestorePasswordForm, RestorePasswordViaEmailOrUsernameForm, RemindUsernameForm,
+    ResendActivationCodeForm, ResendActivationCodeViaEmailForm, ChangeProfileForm, ChangeEmailForm,
+)
+from .models import Activation
 
 
-def reset_password_confirm(request, uidb64, token):
-    try:
-        uid = urlsafe_base64_decode(uidb64).decode()
-        user = User.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+class GuestOnlyView(View):
+    def dispatch(self, request, *args, **kwargs):
+        # Redirect to the index page if the user already authenticated
+        if request.user.is_authenticated:
+            return redirect(settings.LOGIN_REDIRECT_URL)
 
-    if user and default_token_generator.check_token(user, token):
-        if request.method == 'POST':
-            form = SetPasswordForm(user, request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request,
-                                 'Your password has been reset. You can now log in with your new password.')
-                return redirect('account:login')
-        else:
-            form = SetPasswordForm(user)
-
-        context = {'form': form}
-        return render(request, 'accounts/reset_password_confirm.html',
-                      context)
-    else:
-        messages.error(request, 'Invalid password reset link.')
-        return redirect('accounts:login')
+        return super().dispatch(request, *args, **kwargs)
 
 
-class PasswordResetConfirmView(FormView):
-    template_name = 'accounts/reset_password_confirm.html'
-    form_class = SetPasswordForm
-    success_url = reverse_lazy('accounts:login')
+class LogInView(GuestOnlyView, FormView):
+    template_name = 'accounts/log_in.html'
 
-    def get_user(self, uidb64):
-        try:
-            uid = urlsafe_base64_decode(uidb64).decode()
-            return User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            return None
+    @staticmethod
+    def get_form_class(**kwargs):
+        if settings.DISABLE_USERNAME or settings.LOGIN_VIA_EMAIL:
+            return SignInViaEmailForm
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        uidb64 = self.kwargs.get('uidb64')
-        token = self.kwargs.get('token')
-        context['valid_link'] = self.get_user(
-            uidb64) and default_token_generator.check_token(
-            self.get_user(uidb64), token)
-        return context
+        if settings.LOGIN_VIA_EMAIL_OR_USERNAME:
+            return SignInViaEmailOrUsernameForm
+
+        return SignInViaUsernameForm
+
+    @method_decorator(sensitive_post_parameters('password'))
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        # Sets a test cookie to make sure the user has cookies enabled
+        request.session.set_test_cookie()
+
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        uidb64 = self.kwargs.get('uidb64')
-        token = self.kwargs.get('token')
-        user = self.get_user(uidb64)
-        if user and default_token_generator.check_token(user, token):
-            form.save()
-            messages.success(self.request,
-                             'Your password has been reset. You can now log in with your new password.')
+        request = self.request
+
+        # If the test cookie worked, go ahead and delete it since its no longer needed
+        if request.session.test_cookie_worked():
+            request.session.delete_test_cookie()
+
+        # The default Django's "remember me" lifetime is 2 weeks and can be changed by modifying
+        # the SESSION_COOKIE_AGE settings' option.
+        if settings.USE_REMEMBER_ME:
+            if not form.cleaned_data['remember_me']:
+                request.session.set_expiry(0)
+
+        login(request, form.user_cache)
+
+        redirect_to = request.POST.get(REDIRECT_FIELD_NAME, request.GET.get(REDIRECT_FIELD_NAME))
+        url_is_safe = is_safe_url(redirect_to, allowed_hosts=request.get_host(), require_https=request.is_secure())
+
+        if url_is_safe:
+            return redirect(redirect_to)
+
+        return redirect(settings.LOGIN_REDIRECT_URL)
+
+
+class SignUpView(GuestOnlyView, FormView):
+    template_name = 'accounts/sign_up.html'
+    form_class = SignUpForm
+
+    def form_valid(self, form):
+        request = self.request
+        user = form.save(commit=False)
+
+        if settings.DISABLE_USERNAME:
+            # Set a temporary username
+            user.username = get_random_string()
         else:
-            messages.error(self.request, 'Invalid password reset link.')
-        return super().form_valid(form)
+            user.username = form.cleaned_data['username']
 
+        if settings.ENABLE_USER_ACTIVATION:
+            user.is_active = False
 
-def login_view(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username_or_email = form.cleaned_data['username_or_email']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username_or_email,
-                                password=password)
-            if user is not None:
-                login(request, user)
-                return redirect(
-                    'accounts:profile')  # Replace 'profile' with the actual profile URL name
-            else:
-                form.add_error(None, 'Invalid credentials')
-    else:
-        form = LoginForm()
+        # Create a user record
+        user.save()
 
-    context = {'form': form}
-    return render(request, 'accounts/login.html', context)
-
-
-def login_email_view(request):
-    if request.method == 'POST':
-        form = LoginEmailForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(request, email=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect(
-                    'accounts:profile')  # Replace 'profile' with the actual profile URL name
-            else:
-                form.add_error(None, 'Invalid credentials')
-    else:
-        form = LoginEmailForm()
-
-    context = {'form': form}
-    return render(request, 'accounts/login_email.html', context)
-
-
-def login_email_or_username_view(request):
-    if request.method == 'POST':
-        form = LoginEmailOrUsernameForm(request.POST)
-        if form.is_valid():
-            username_or_email = form.cleaned_data['username_or_email']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username_or_email,
-                                password=password) or \
-                   authenticate(request, email=username_or_email,
-                                password=password)
-            if user is not None:
-                login(request, user)
-                return redirect(
-                    'accounts:profile')  # Replace 'profile' with the actual profile URL name
-            else:
-                form.add_error(None, 'Invalid credentials')
-    else:
-        form = LoginEmailOrUsernameForm()
-
-    context = {'form': form}
-    return render(request, 'accounts/login_email_or_username.html', context)
-
-
-def registration_view(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False  # User needs to activate the accounts via email
+        # Change the username to the "user_ID" form
+        if settings.DISABLE_USERNAME:
+            user.username = f'user_{user.id}'
             user.save()
-            # Send activation email here
-            return render(request, 'accounts/registration_complete.html')
-    else:
-        form = RegistrationForm()
 
-    context = {'form': form}
-    return render(request, 'accounts/registration.html', context)
+        if settings.ENABLE_USER_ACTIVATION:
+            code = get_random_string(20)
 
+            act = Activation()
+            act.code = code
+            act.user = user
+            act.save()
 
-def logout_view(request):
-    logout(request)
-    return redirect(
-        'accounts:login')  # Replace 'login' with the actual login URL name
+            send_activation_email(request, user.email, code)
 
+            messages.success(
+                request, _('You are signed up. To activate the account, follow the link sent to the mail.'))
+        else:
+            raw_password = form.cleaned_data['password1']
 
-@login_required
-def profile_activation_email_view(request):
-    user = request.user
-    current_site = get_current_site(request)
-    subject = 'Activate Your Profile'
-    message = render_to_string('accounts/profile_activation_email.html', {
-        'user': user,
-        'domain': current_site.domain,
-        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-        'token': default_token_generator.make_token(user),
-    })
-    user.email_user(subject, message)
-    return render(request, 'accounts/profile_activation_email_sent.html')
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+
+            messages.success(request, _('You are successfully signed up!'))
+
+        return redirect('index')
 
 
-def activate_profile(request, activation_key):
-    try:
-        user_id = force_str(urlsafe_base64_decode(activation_key))
-        user = CustomUser.objects.get(pk=user_id)
-        if user.is_active:
-            return render(request,
-                          'accounts/profile_activation_complete.html')
+class ActivateView(View):
+    @staticmethod
+    def get(request, code):
+        act = get_object_or_404(Activation, code=code)
+
+        # Activate profile
+        user = act.user
         user.is_active = True
         user.save()
-        return render(request, 'accounts/profile_activation_complete.html')
-    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
-        return render(request, 'accounts/invalid_activation_link.html')
+
+        # Remove the activation record
+        act.delete()
+
+        messages.success(request, _('You have successfully activated your account!'))
+
+        return redirect('accounts:log_in')
 
 
-def reset_password_email_view(request):
-    if request.method == 'POST':
-        form = ResetPasswordEmailForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            user = CustomUser.objects.get(email=email)
-            current_site = get_current_site(request)
-            subject = 'Reset Your Password'
-            message = render_to_string('accounts/reset_password_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
-            user.email_user(subject, message)
-            return render(request, 'accounts/reset_password_email_sent.html')
-    else:
-        form = ResetPasswordEmailForm()
+class ResendActivationCodeView(GuestOnlyView, FormView):
+    template_name = 'accounts/resend_activation_code.html'
 
-    context = {'form': form}
-    return render(request, 'accounts/reset_password_email.html', context)
+    @staticmethod
+    def get_form_class(**kwargs):
+        if settings.DISABLE_USERNAME:
+            return ResendActivationCodeViaEmailForm
 
+        return ResendActivationCodeForm
 
-class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-    template_name = 'accounts/reset_password_confirm.html'
-    success_url = reverse_lazy('accounts:password_reset_complete')
-    token_generator = default_token_generator
-    post_reset_login = True
+    def form_valid(self, form):
+        user = form.user_cache
 
-    def get_user(self, uidb64):
-        User = get_user_model()
-        try:
-            uid = force_str(urlsafe_base64_decode(uidb64))
-            return User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            return None
+        activation = user.activation_set.first()
+        activation.delete()
+
+        code = get_random_string(20)
+
+        act = Activation()
+        act.code = code
+        act.user = user
+        act.save()
+
+        send_activation_email(self.request, user.email, code)
+
+        messages.success(self.request, _('A new activation code has been sent to your email address.'))
+
+        return redirect('accounts:resend_activation_code')
 
 
-def resend_activation_view(request):
-    if request.method == 'POST':
-        form = ResendActivationForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            user = CustomUser.objects.get(email=email)
-            current_site = get_current_site(request)
-            subject = 'Activate Your Profile'
-            message = render_to_string(
-                'accounts/profile_activation_email.html', {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': default_token_generator.make_token(user),
-                })
-            user.email_user(subject, message)
-            return render(request,
-                          'accounts/profile_activation_email_sent.html')
-    else:
-        form = ResendActivationForm()
+class RestorePasswordView(GuestOnlyView, FormView):
+    template_name = 'accounts/restore_password.html'
 
-    context = {'form': form}
-    return render(request, 'accounts/resend_activation.html', context)
+    @staticmethod
+    def get_form_class(**kwargs):
+        if settings.RESTORE_PASSWORD_VIA_EMAIL_OR_USERNAME:
+            return RestorePasswordViaEmailOrUsernameForm
+
+        return RestorePasswordForm
+
+    def form_valid(self, form):
+        user = form.user_cache
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+
+        if isinstance(uid, bytes):
+            uid = uid.decode()
+
+        send_reset_password_email(self.request, user.email, token, uid)
+
+        return redirect('accounts:restore_password_done')
 
 
-@login_required
-def change_password_view(request):
-    if request.method == 'POST':
-        form = ChangePasswordForm(request.user, request.POST)
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
-            messages.success(request,
-                             'Your password was successfully updated!')
-            return redirect(
-                'accounts:profile')  # Replace 'profile' with the actual profile URL name
-    else:
-        form = ChangePasswordForm(request.user)
+class ChangeProfileView(LoginRequiredMixin, FormView):
+    template_name = 'accounts/profile/change_profile.html'
+    form_class = ChangeProfileForm
 
-    context = {'form': form}
-    return render(request, 'accounts/change_password.html', context)
+    def get_initial(self):
+        user = self.request.user
+        initial = super().get_initial()
+        initial['first_name'] = user.first_name
+        initial['last_name'] = user.last_name
+        return initial
+
+    def form_valid(self, form):
+        user = self.request.user
+        user.first_name = form.cleaned_data['first_name']
+        user.last_name = form.cleaned_data['last_name']
+        user.save()
+
+        messages.success(self.request, _('Profile data has been successfully updated.'))
+
+        return redirect('accounts:change_profile')
 
 
-@login_required
-def change_email_view(request):
-    if request.method == 'POST':
-        form = ChangeEmailForm(request.user, request.POST)
-        if form.is_valid():
-            new_email = form.cleaned_data['new_email']
-            user = request.user
-            user.email = new_email
-            user.is_active = False  # User needs to reconfirm new email
+class ChangeEmailView(LoginRequiredMixin, FormView):
+    template_name = 'accounts/profile/change_email.html'
+    form_class = ChangeEmailForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['email'] = self.request.user.email
+        return initial
+
+    def form_valid(self, form):
+        user = self.request.user
+        email = form.cleaned_data['email']
+
+        if settings.ENABLE_ACTIVATION_AFTER_EMAIL_CHANGE:
+            code = get_random_string(20)
+
+            act = Activation()
+            act.code = code
+            act.user = user
+            act.email = email
+            act.save()
+
+            send_activation_change_email(self.request, email, code)
+
+            messages.success(self.request, _('To complete the change of email address, click on the link sent to it.'))
+        else:
+            user.email = email
             user.save()
 
-            current_site = get_current_site(request)
-            subject = 'Activate Your New Email'
-            message = render_to_string('accounts/email_change_request.html', {
-                'user': user,
-                'new_email': new_email,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
-            })
-            user.email_user(subject, message)
-            messages.success(request,
-                             'An email with activation link has been sent to your')
+            messages.success(self.request, _('Email successfully changed.'))
+
+        return redirect('accounts:change_email')
 
 
-@login_required
-def change_profile_view(request):
-    if request.method == 'POST':
-        form = ChangeProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request,
-                             'Your profile information was successfully updated!')
-            return redirect(
-                'accounts:profile')  # Replace 'profile' with the actual profile URL name
-    else:
-        form = ChangeProfileForm(instance=request.user)
+class ChangeEmailActivateView(View):
+    @staticmethod
+    def get(request, code):
+        act = get_object_or_404(Activation, code=code)
 
-    context = {'form': form}
-    return render(request, 'accounts/change_profile.html', context)
-
-
-@login_required
-def profile_view(request):
-    user = request.user
-    context = {'user': user}
-    return render(request, 'accounts/profile.html', context)
-
-
-@login_required
-def resend_activation_view(request):
-    if request.method == 'POST':
-        form = ResendActivationForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            user = CustomUser.objects.get(email=email)
-            current_site = get_current_site(request)
-            subject = 'Activate Your Profile'
-            message = render_to_string(
-                'accounts/profile_activation_email.html', {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': default_token_generator.make_token(user),
-                })
-            user.email_user(subject, message)
-            return render(request,
-                          'accounts/profile_activation_email_sent.html')
-    else:
-        form = ResendActivationForm()
-
-    context = {'form': form}
-    return render(request, 'accounts/resend_activation.html', context)
-
-
-@login_required
-def delete_profile_confirm_view(request):
-    return render(request, 'accounts/delete_profile_confirm.html')
-
-
-@login_required
-def delete_profile_complete_view(request):
-    user = request.user
-    user.delete()
-    return render(request, 'accounts/delete_profile_complete.html')
-
-
-@login_required
-def delete_profile_cancel_view(request):
-    return render(request, 'accounts/delete_profile_cancel.html')
-
-
-@login_required
-def generate_api_key_view(request):
-    if request.method == 'POST':
-        user = request.user
-        if user.api_key:
-            return render(request, 'accounts/api_key_already_generated.html')
-        api_key = CustomUser.objects.generate_api_key()
-        user.api_key = api_key
+        # Change the email
+        user = act.user
+        user.email = act.email
         user.save()
-        return render(request, 'accounts/api_key_generation_complete.html',
-                      {'api_key': api_key})
-    return render(request, 'accounts/api_key_generation.html')
+
+        # Remove the activation record
+        act.delete()
+
+        messages.success(request, _('You have successfully changed your email!'))
+
+        return redirect('accounts:change_email')
 
 
-def reset_password_request(request):
-    if request.method == 'POST':
-        form = ResetPasswordEmailForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            user = User.objects.get(email=email)
+class RemindUsernameView(GuestOnlyView, FormView):
+    template_name = 'accounts/remind_username.html'
+    form_class = RemindUsernameForm
 
-            current_site = get_current_site(request)
-            subject = 'Password Reset Request'
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(user.pk.to_bytes())
+    def form_valid(self, form):
+        user = form.user_cache
+        send_forgotten_username_email(user.email, user.username)
 
-            reset_link = reverse('account:reset_password_confirm',
-                                 kwargs={'uidb64': uid, 'token': token})
-            reset_url = f"http://{current_site.domain}{reset_link}"
+        messages.success(self.request, _('Your username has been successfully sent to your email.'))
 
-            message = render_to_string('accounts/password_reset_email.html', {
-                'user': user,
-                'reset_url': reset_url,
-                'domain': current_site.domain,
-            })
-
-            send_mail(subject, message, 'noreply@example.com', [email])
-
-            return render(request, 'accounts/reset_password_email_sent.html')
-    else:
-        form = ResetPasswordEmailForm()
-
-    context = {'form': form}
-    return render(request, 'accounts/reset_password_request.html', context)
+        return redirect('accounts:remind_username')
 
 
-@login_required
-def api_key_display_view(request):
-    user = request.user
-    api_key = user.api_key
-    if api_key:
-        return render(request, 'accounts/api_key_display.html',
-                      {'api_key': api_key})
-    else:
-        return render(request, 'accounts/api_key_not_generated.html')
+class ChangePasswordView(BasePasswordChangeView):
+    template_name = 'accounts/profile/change_password.html'
+
+    def form_valid(self, form):
+        # Change the password
+        user = form.save()
+
+        # Re-authentication
+        login(self.request, user)
+
+        messages.success(self.request, _('Your password was changed.'))
+
+        return redirect('accounts:change_password')
 
 
-@login_required
-def api_key_generation_complete_view(request):
-    return render(request, 'accounts/api_key_generation_complete.html')
+class RestorePasswordConfirmView(BasePasswordResetConfirmView):
+    template_name = 'accounts/restore_password_confirm.html'
+
+    def form_valid(self, form):
+        # Change the password
+        form.save()
+
+        messages.success(self.request, _('Your password has been set. You may go ahead and log in now.'))
+
+        return redirect('accounts:log_in')
 
 
-def api_key_generation_error_view(request):
-    return render(request, 'accounts/api_key_generation_error.html')
+class RestorePasswordDoneView(BasePasswordResetDoneView):
+    template_name = 'accounts/restore_password_done.html'
 
 
-def api_key_already_generated_view(request):
-    return render(request, 'accounts/api_key_already_generated.html')
-
-
-from django.shortcuts import render
-
-
-def invalid_activation_link_view(request):
-    return render(request, 'accounts/invalid_activation_link.html')
-
-
-def invalid_reset_link_view(request):
-    return render(request, 'accounts/invalid_reset_link.html')
-
-
-def invalid_email_change_request_link_view(request):
-    return render(request, 'accounts/invalid_email_change_request_link.html')
-
-
-def profile_deleted_view(request):
-    return render(request, 'accounts/profile_deleted.html')
+class LogOutView(LoginRequiredMixin, BaseLogoutView):
+    template_name = 'accounts/log_out.html'
