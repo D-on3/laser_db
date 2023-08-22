@@ -354,7 +354,7 @@ h6,
   top: 0;
   width: 130%;
   height: 96%;
-  background: #68A4C4;
+  background: #83a0a0;
   opacity: 0.3;
   z-index: 0;
   border-radius: 0 0 50% 50%;
@@ -414,11 +414,11 @@ h6,
   margin: 10px;
   color: #fff;
   animation-delay: 0.8s;
-  border: 2px solid #68A4C4;
+  border: 2px solid #83a0a0;
 }
 
 #hero .btn-get-started:hover {
-  background: #68A4C4;
+  background: #83a0a0;
   color: #fff;
   text-decoration: none;
 }
@@ -520,11 +520,11 @@ h6,
   margin: 10px;
   color: #fff;
   animation-delay: 0.8s;
-  border: 2px solid #68A4C4;
+  border: 2px solid #83a0a0;
 }
 
 #hero-no-slider .btn-get-started:hover {
-  background: #68A4C4;
+  background: #83a0a0;
   color: #fff;
   text-decoration: none;
 }
