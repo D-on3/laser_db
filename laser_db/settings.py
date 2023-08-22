@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'laser_color_marking_api',
     "accounts",
     "bootstrap4",
+    'allauth.socialaccount',
+
 
 ]
 

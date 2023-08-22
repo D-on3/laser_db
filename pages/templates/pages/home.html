@@ -1,31 +1,80 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<section id="hero" class="d-flex justify-content-center align-items-center">
+    <div id="heroCarousel" class="container carousel carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+            <div class="carousel-container">
+                <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Laser Database</span></h2>
+                <p class="animate__animated animate__fadeInUp"></p>
+{#                <a href="" class="btn-get-started animate__animated animate__fadeInUp">Read More</a>#}
+            </div>
 
+        </div>
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+            <div class="carousel-container">
+                <h2 class="animate__animated animate__fadeInDown">What <span> Laser Database Offers?</span></h2>
+                <p class="animate__animated animate__fadeInUp"> Discover CO2 Cutting, Fiber Engraving, and Color Marking lasers tailored to your needs. Find the ideal laser, explore settings, and stay updated with expert insights, all through our user-friendly interface. Experience innovation with us.</p>
+{#                <a href="" class="btn-get-started animate__animated animate__fadeInUp">Read More</a>#}
+            </div>
+
+        </div>
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+            <div class="carousel-container">
+                <h2 class="animate__animated animate__fadeInDown"><span>Unlocking Laser Precision:</span><br> Your Future Starts Here</h2>
+                <p class="animate__animated animate__fadeInUp">Join us in shaping the future of precision technology. Explore CO2 Cutting, Fiber Engraving, and Color Marking lasers in our database. Navigate settings, gain expert insights, and embrace innovation through our user-friendly interface. Your future with us starts now.</p>
+{#                <a href="" class="btn-get-started animate__animated animate__fadeInUp">Read More</a>#}
+            </div>
+        </div>
+    </div>
+</section>
     <section>
-        <h2>What Laser Database Offers:</h2>
-        <ul>
-            <li>
-                <h3>Explore Laser Sources</h3>
-                <p>Browse through a wide range of laser sources, from diode lasers to fiber lasers. Find the perfect fit for your laser marking needs.</p>
-            </li>
-            <li>
-                <h3>Search by Color</h3>
-                <p>Our advanced color-based search helps you find laser sources based on RGB color values. Find the exact laser for your unique applications.</p>
-            </li>
-            <li>
-                <h3>Custom Marking Parameters</h3>
-                <p>Dive into detailed marking parameters and settings for each laser source. Get insights into power levels, wavelengths, and more.</p>
-            </li>
-            <li>
-                <h3>Expert Insights</h3>
-                <p>Benefit from expert articles and resources on laser technology. Stay up-to-date with the latest trends and innovations in the laser marking field.</p>
-            </li>
-            <li>
-                <h3>User-Friendly Interface</h3>
-                <p>Our intuitive interface makes it effortless to search, explore, and compare laser sources and marking parameters.</p>
-            </li>
-        </ul>
+        <main class="container">
+    <div class="row">
+        <!-- Card: Explore Laser Sources -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Explore Laser Sources</h5>
+                    <p class="card-text">Browse through a wide range of laser sources, from diode lasers to fiber lasers. Find the perfect fit for your laser marking needs.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Search by Color -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Search by Color</h5>
+                    <p class="card-text">Our advanced color-based search helps you find laser sources based on RGB color values. Find the exact laser for your unique applications.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Custom Marking Parameters -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Custom Marking Parameters</h5>
+                    <p class="card-text">Dive into detailed marking parameters and settings for each laser source. Get insights into power levels, wavelengths, and more.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card: Expert Insights -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Expert Insights</h5>
+                    <p class="card-text">Benefit from expert articles and resources on laser technology. Stay up-to-date with the latest trends and innovations in the laser marking field.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
     </section>
 
     <section>

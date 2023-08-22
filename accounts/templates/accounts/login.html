@@ -7,11 +7,11 @@
             {% csrf_token %}
             <div class="form-group">
                 {{ form.username_or_email.label_tag }}
-                {{ form.username_or_email|add_class:'form-control' }}
+                {{ form.username_or_email }}
             </div>
             <div class="form-group">
                 {{ form.password.label_tag }}
-                {{ form.password|add_class:'form-control' }}
+                {{ form.password }}
             </div>
             <button class="btn btn-primary" type="submit">Login</button>
         </form>
