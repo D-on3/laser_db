@@ -77,15 +77,21 @@
 </main>
     </section>
 
-    <section>
-        <h2>Start Exploring Today:</h2>
-        <p>Join the Laser Database community and unlock a world of laser marking solutions. Whether you're creating intricate designs, industrial markings, or artistic projects, Laser Database has you covered. Experience the future of laser technology today.</p>
-        <h3>Ready to Get Started? <a href="{% url 'authentication:login' %}">Explore Laser Database Now!</a></h3>
-    </section>
+<div class="card mb-3">
+    <div class="card-body">
+        <h2 class="card-title">Start Exploring Today:</h2>
+        <p class="card-text">Join the Laser Database community and unlock a world of laser marking solutions. Whether you're creating intricate designs, industrial markings, or artistic projects, Laser Database has you covered. Experience the future of laser technology today.</p>
+        <h3 class="card-title">Ready to Get Started? <a href="{% url 'authentication:login' %}" class="card-link">Explore Laser Database Now!</a></h3>
+    </div>
+</div>
 
-    <p class="u-align-center u-custom-font u-font-arial u-text u-text-2" spellcheck="false">
-        LaserParams is an open-source platform that aims to unify laser technology parameters for future collaborations. With a vision of fostering innovation and knowledge sharing, LaserParams provides a centralized repository for laser-related data, specifications, and settings. This platform enables researchers, engineers, and enthusiasts to access and contribute to a comprehensive collection of laser parameters, facilitating collaboration and accelerating technological advancements.
-    </p>
+<div class="card mb-3">
+    <div class="card-body">
+        <p class="card-text u-align-center u-custom-font u-font-arial u-text u-text-2" spellcheck="false">
+            LaserParams is an open-source platform that aims to unify laser technology parameters for future collaborations. With a vision of fostering innovation and knowledge sharing, LaserParams provides a centralized repository for laser-related data, specifications, and settings. This platform enables researchers, engineers, and enthusiasts to access and contribute to a comprehensive collection of laser parameters, facilitating collaboration and accelerating technological advancements.
+        </p>
+    </div>
+</div>
 
 
 {% endblock %}
