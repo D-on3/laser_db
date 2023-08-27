@@ -28,10 +28,10 @@ classDiagram
         +date_published: DateTime
         +research_date: DateTime
         +__str__(): String
-    }
 
-    Material --> LaserMarkingParameters : has
-    LaserSource --> LaserMarkingParameters : has
+        Material --> LaserMarkingParameters : applies to
+        LaserSource --> LaserMarkingParameters : uses
+    }
 
 
 ```
