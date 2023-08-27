@@ -14,8 +14,6 @@ classDiagram
     }
 
     class LaserMarkingParameters {
-        +laser_source: LaserSource
-        +material: Material
         +scanning_speed: Integer
         +average_power: Decimal
         +scan_step: Float
@@ -34,6 +32,5 @@ classDiagram
 
     Material --|> LaserMarkingParameters : has
     LaserSource --|> LaserMarkingParameters : has
-
 
 ```
