@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>List of Materials</h1>
+    <ul>
+        {% for material in materials %}
+            <li>{{ material.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

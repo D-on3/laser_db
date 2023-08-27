@@ -98,14 +98,14 @@ classDiagram
     class Material {
         +name: String
         +description: String
-        +__str__(): String
+
     }
 
     class LaserSource {
         +name: String
         +type_of_laser: String
         +wavelength: Integer
-        +__str__(): String
+
     }
 
     class LaserMarkingParameters {
@@ -122,7 +122,7 @@ classDiagram
         +author: String
         +date_published: DateTime
         +research_date: DateTime
-        +__str__(): String
+
         +material: Material
         +laser_source: LaserSource
     }

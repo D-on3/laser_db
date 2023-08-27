@@ -9,8 +9,8 @@ from .views import (
 app_name = 'accounts'
 
 urlpatterns = [
-    path('log-in/', LogInView.as_view(), name='log_in'),
-    path('log-out/', LogOutView.as_view(), name='log_out'),
+    path('log-in/', LogInView.as_view(), name='login'),
+    path('log-out/', LogOutView.as_view(), name='logout'),
 
     path('resend/activation-code/', ResendActivationCodeView.as_view(), name='resend_activation_code'),
 
