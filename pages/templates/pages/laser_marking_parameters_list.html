@@ -2,9 +2,42 @@
 
 {% block content %}
     <h1>List of Laser Marking Parameters</h1>
-    <ul>
-        {% for marking_parameters in marking_parameters %}
-            <li>{{ marking_parameters.name }}</li>
+    <table>
+        <tr>
+            <th>Material</th>
+            <th>Laser Source</th>
+            <th>Scanning Speed</th>
+            <th>Average Power</th>
+            <th>Scan Step</th>
+            <th>Pulse Duration</th>
+            <th>Pulse Repetition Rate</th>
+            <th>Overlap Coefficient</th>
+            <th>Volumetric Density of Energy</th>
+            <th>Author</th>
+            <th>Date Published</th>
+            <th>Research Date</th>
+            <th>Color of the Mark</th> <!-- New column for color -->
+        </tr>
+        {% for marking_parameters in laser_marking_parameters %}
+            <tr>
+                <td>{{ marking_parameters.material }}</td>
+                <td>{{ marking_parameters.laser_source }}</td>
+                <td>{{ marking_parameters.scanning_speed }}</td>
+                <td>{{ marking_parameters.average_power }}</td>
+                <td>{{ marking_parameters.scan_step }}</td>
+                <td>{{ marking_parameters.pulse_duration }}</td>
+                <td>{{ marking_parameters.pulse_repetition_rate }}</td>
+                <td>{{ marking_parameters.overlap_coefficient }}</td>
+                <td>{{ marking_parameters.volumetric_density_of_energy }}</td>
+                <td>{{ marking_parameters.author }}</td>
+                <td>{{ marking_parameters.date_published }}</td>
+                <td>{{ marking_parameters.research_date }}</td>
+                <td style="background-color: rgb({{ marking_parameters.color_red }},
+                                                     {{ marking_parameters.color_green }},
+                                                     {{ marking_parameters.color_blue }});">
+                    &nbsp;
+                </td>
+            </tr>
         {% endfor %}
-    </ul>
+    </table>
 {% endblock %}
