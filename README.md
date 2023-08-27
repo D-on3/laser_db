@@ -1,4 +1,4 @@
-```mermaid
+``` mermaid
 classDiagram
     class Material {
         +name: String
@@ -28,11 +28,10 @@ classDiagram
         +date_published: DateTime
         +research_date: DateTime
         +__str__(): String
-
-        Material --> LaserMarkingParameters : applies to
-        LaserSource --> LaserMarkingParameters : uses
+        +material: Material
+        +laser_source: LaserSource
     }
 
-
-
+    Material --> LaserMarkingParameters : has
+    LaserSource --> LaserMarkingParameters : has
 ```
