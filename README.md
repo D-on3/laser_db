@@ -30,7 +30,7 @@ classDiagram
         +__str__(): String
     }
 
-    Material --|> LaserMarkingParameters +scanning_speed : 
+    Material --|> scanning_speed : 
     LaserSource --|> LaserMarkingParameters : has
 
 ```
