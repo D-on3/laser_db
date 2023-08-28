@@ -2,7 +2,7 @@
 
 import colorsys
 from django.utils import timezone
-from pages.models import LaserMarkingParameters, Material, LaserSource
+from laser_db.pages.models import LaserMarkingParameters, Material, LaserSource
 import datetime
 import os
 import django
