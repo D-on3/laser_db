@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 import os
 from os.path import dirname
@@ -27,8 +28,8 @@ SECRET_KEY = 'django-insecure-ymnex2%n6limpu=rb*5#!w$tqqjauy39x6ifd0)v#f9d9=*+qf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 #
-# ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
+# ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -39,37 +40,67 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework_api_key',
-    'rest_framework.authtoken',
+
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'rest_auth',
-    'rest_auth.registration',
-    'rest_framework_simplejwt.token_blacklist',
+
     'django_bootstrap5',
     "pages",
-    'laser_color_marking_api',
+
     "accounts",
     "bootstrap4",
     'allauth.socialaccount',
+    'laser_cm_api',
+
+    'rest_auth',
+    'rest_auth.registration',
+    'rest_framework_simplejwt.token_blacklist',
+    'rest_framework',
+    'rest_framework_api_key',
+    'rest_framework.authtoken',  # Add this line
+    'rest_framework_simplejwt',  # Add this line
+
 ]
 
+# Token expiration in seconds (e.g., 3600 seconds = 1 hour)
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SETTINGS': {
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework.authentication.TokenAuthentication',
+        ],
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated',
+        ],
+        'DEFAULT_PARSER_CLASSES': [
+            'rest_framework.parsers.JSONParser',
+        ],
+        'DEFAULT_RENDERER_CLASSES': [
+            'rest_framework.renderers.JSONRenderer',
+        ],
+        'DEFAULT_THROTTLE_CLASSES': [
+            'rest_framework.throttling.UserRateThrottle',
+        ],
+        'DEFAULT_THROTTLE_RATES': {
+            'user': '1000/day',
+        },
+    },
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
-
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'ROTATE_REFRESH_TOKENS': True,
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+    # Set token lifetime as needed
+
 }
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
@@ -136,27 +167,27 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'laser_db.wsgi.application'
-
+#
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'laserparams$default',
-#         'USER': 'laserparams',
-#         'PASSWORD': "enodve34",
-#         'HOST': 'laserparams.mysql.pythonanywhere-services.com',
-#         'PORT': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'laserparams$default',
+        'USER': 'laserparams',
+        'PASSWORD': "enodve34",
+        'HOST': 'laserparams.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
     }
 }
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -27,8 +27,9 @@ urlpatterns = [
 
     # Include the URLs for your apps
     path('', include('pages.urls', namespace='pages')),
-    path('api/', include('laser_color_marking_api.urls', namespace='laser_color_marking_api')),
-    path('acc/', include('accounts.urls', namespace='accounts-1')),
+    path('api/', include(('laser_cm_api.urls', 'laser_cm_api'),
+                         namespace='laser_cm_api')),
+    path('acc/', include('accounts.urls', namespace='accounts')),
 
 
 ]
