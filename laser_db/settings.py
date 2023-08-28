@@ -28,8 +28,8 @@ SECRET_KEY = 'django-insecure-ymnex2%n6limpu=rb*5#!w$tqqjauy39x6ifd0)v#f9d9=*+qf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 #
-# ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
+# ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -167,27 +167,27 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'laser_db.wsgi.application'
-
+#
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'laserparams$default',
-#         'USER': 'laserparams',
-#         'PASSWORD': "enodve34",
-#         'HOST': 'laserparams.mysql.pythonanywhere-services.com',
-#         'PORT': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'laserparams$default',
+        'USER': 'laserparams',
+        'PASSWORD': "enodve34",
+        'HOST': 'laserparams.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
     }
 }
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
