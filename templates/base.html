@@ -27,26 +27,23 @@
                 <!-- User-authenticated views -->
                 {% if request.user.is_authenticated %}
                 {% if request.user.is_superuser %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admin:login' %}">Django administration</a>
-                </li>
-                {% endif %}
+                <li><a class="dropdown-item" href="{% url 'pages:about' %}">About Us</a></li>
+                <li><a class="dropdown-item" href="{% url 'pages:contact' %}">Contact Us</a></li>
         <!-- Dropdown for Pages app -->
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Pages
+                Databases
             </a>
 
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="pagesDropdown">
                 <li><a class="dropdown-item" href="{% url 'pages:home' %}">Home</a></li>
-                <li><a class="dropdown-item" href="{% url 'pages:about' %}">About Us</a></li>
-                <li><a class="dropdown-item" href="{% url 'pages:contact' %}">Contact Us</a></li>
+
                 <li><a class="dropdown-item" href="{% url 'pages:material_list' %}">Material List</a></li>
                 <li><a class="dropdown-item" href="{% url 'pages:laser_source_list' %}">Laser Sources</a></li>
                 <li><a class="dropdown-item" href="{% url 'pages:laser_marking_parameters_list' %}">Laser Marking Parameters</a></li>
                 <!-- Add more dropdown items as needed -->
             </ul>
-        </li>
+
                 <!-- Dropdown for Laser Color Marking API app -->
 <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="apiDropdown" role="button" data-bs-toggle="dropdown"
@@ -64,16 +61,19 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+                        data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
-                        <li><a class="dropdown-item" href="{% url 'admin:login' %}">Django administration</a></li>
+
                         <li><a class="dropdown-item" href="{% url 'accounts:change_password' %}">Change password</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:change_profile' %}">Change profile</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:change_email' %}">Change email</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Log out</a></li>
+
                         <!-- Add more dropdown items as needed -->
                     </ul>
+
                 </li>
+                                    {% endif %}
                 {% else %}
                 <!-- Log In and Create an Account links -->
                 <li class="nav-item">
