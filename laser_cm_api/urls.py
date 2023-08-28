@@ -10,17 +10,16 @@ from .views import *
 app_name = "laser_cm_api"
 urlpatterns = [
     # ...
-    path('token/', TokenObtainPairView.as_view(),
-         name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(),
-         name='token_refresh'),
+    # path('token/', TokenObtainPairView.as_view(),
+    #      name='token_obtain_pair'),
+    # path('api/token/refresh/', TokenRefreshView.as_view(),
+    #      name='token_refresh'),
     path('marking-parameters/', LaserMarkingParametersList.as_view(),
          name='marking-parameters-list'),
     path('marking-parameters/<int:pk>/',
          LaserMarkingParametersDetail.as_view(),
          name='marking-parameters-detail'),
-    path('search-by-color/', ColorSearchAPIView.as_view(), name='search-by-color'),
-    path('make-api-request/', make_api_request_view, name='make_api_request'),
-
-    # ...
+    path('search-color/', ColorSearchAPIView.as_view(),
+         name='color-search-api'),
+    path('docs/', landing_page, name='docs'),
 ]

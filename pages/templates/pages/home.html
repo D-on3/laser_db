@@ -68,18 +68,15 @@
             </div>
         </div>
 
-        <!-- Card: Expert Insights -->
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Expert Insights</h5>
-                    <p class="card-text">Benefit from expert articles and resources on laser technology. Stay up-to-date with the latest trends and innovations in the laser marking field.</p>
-                </div>
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">API INFO for lasers</h5>
+                <p class="card-text">Access the Laser Color Marking API to search for color parameters based on RGB values. Retrieve matching colors from the database using this API.</p>
+                <a href="{% url 'laser_cm_api:docs' %}" class="btn btn-primary d-flex justify-content-center">API Documentation</a>
             </div>
         </div>
     </div>
-</main>
-    </section>
 
 <div class="card mb-3">
     <div class="card-body" style="text-align: justify">
@@ -88,6 +85,7 @@
         <h3 class="card-title">Ready to Get Started? <a href="{% url 'accounts:login' %}" class="card-link">Explore Laser Database Now!</a></h3>
     </div>
 </div>
+
 
 
 

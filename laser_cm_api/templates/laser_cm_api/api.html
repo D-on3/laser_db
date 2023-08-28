@@ -1,17 +1,78 @@
-<!-- Include other HTML content above if needed -->
-<div id="api-request-form" style="display: none;">
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary">Make API Request</button>
-    </form>
+{% extends 'base.html' %}
+
+{% block title %}API Documentation{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">API Documentation</h1>
+        <p class="lead">This API documentation provides information about the available endpoints and their usage.</p>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <h2>LaserMarkingParametersList</h2>
+            <p><strong>Endpoint:</strong> GET /api/color-parameters/</p>
+            <p><strong>Description:</strong> Retrieves a list of color parameters based on RGB values.</p>
+            <p><strong>Usage:</strong> Use this endpoint to retrieve a list of color parameters that match the provided RGB value.</p>
+            <p><strong>Query Parameter:</strong> hex_color (string): The RGB color value in hexadecimal format (e.g., "#RRGGBB").</p>
+            <p><strong>Response:</strong> Returns a list of color parameters that match the provided RGB value.</p>
+            <p><strong>Curl Request:</strong></p>
+            <pre>curl -X GET http://your-api-domain/api/color-parameters/?hex_color=#RRGGBB</pre>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <h2>LaserMarkingParametersDetail</h2>
+            <p><strong>Endpoint:</strong> GET /api/color-parameters/{id}/</p>
+            <p><strong>Description:</strong> Retrieves details of a specific color parameter.</p>
+            <p><strong>Usage:</strong> Use this endpoint to retrieve detailed information about a color parameter based on its ID.</p>
+            <p><strong>URL Parameter:</strong> id (integer): The ID of the color parameter.</p>
+            <p><strong>Response:</strong> Returns detailed information about the specified color parameter.</p>
+            <p><strong>Curl Request:</strong></p>
+            <pre>curl -X GET http://your-api-domain/api/color-parameters/{id}/</pre>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <h2>Landing Page</h2>
+            <p><strong>Endpoint:</strong> GET /</p>
+            <p><strong>Description:</strong> Landing page for the API documentation.</p>
+            <p><strong>Usage:</strong> Access this endpoint to view the API documentation, including explanations of available endpoints and their usage.</p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <h2>ColorSearchAPIView</h2>
+            <p><strong>Endpoint:</strong> POST /api/search-color/</p>
+            <p><strong>Description:</strong> Search for color parameters based on RGB values.</p>
+            <p><strong>Usage:</strong> Use this endpoint to search for color parameters based on an RGB value. The API will return matching colors from the database.</p>
+            <p><strong>Request Body:</strong></p>
+            <pre>
+{
+    "hex_color": "#RRGGBB"
+}
+            </pre>
+            <p><strong>Response:</strong></p>
+            <pre>
+{
+    "matching_colors": [
+        {
+            "color_red": 255,
+            "color_green": 0,
+            "color_blue": 0,
+            // Other LaserMarkingParameters fields...
+        },
+        // Other matching colors...
+    ]
+}
+            </pre>
+            <p><strong>Curl Request:</strong></p>
+            <pre>curl -X POST -H "Content-Type: application/json" -d '{"hex_color": "#RRGGBB"}' http://your-api-domain/api/search-color/</pre>
+        </div>
+    </div>
 </div>
-
-<button id="show-form-button" class="btn btn-primary">Show API Request Form</button>
-
-<script>
-document.getElementById("show-form-button").addEventListener("click", function() {
-    document.getElementById("api-request-form").style.display = "block";
-    this.style.display = "none"; // Hide the "Show API Request Form" button
-});
-</script>
-<!-- Include other HTML content below if needed -->
+{% endblock %}

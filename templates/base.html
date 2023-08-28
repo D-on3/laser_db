@@ -14,68 +14,63 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'pages:home' %}">LaserDB</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
-                aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNavDarkDropdown">
+
+
+<!--NAVBAR-->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'pages:home' %}">LaserDB</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
+            aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul class="navbar-nav">
-                <!-- User-authenticated views -->
                 {% if request.user.is_authenticated %}
                 {% if request.user.is_superuser %}
-                <li><a class="dropdown-item" href="{% url 'pages:about' %}">About Us</a></li>
-                <li><a class="dropdown-item" href="{% url 'pages:contact' %}">Contact Us</a></li>
-        <!-- Dropdown for Pages app -->
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Databases
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="pagesDropdown">
-                <li><a class="dropdown-item" href="{% url 'pages:home' %}">Home</a></li>
-
-                <li><a class="dropdown-item" href="{% url 'pages:material_list' %}">Material List</a></li>
-                <li><a class="dropdown-item" href="{% url 'pages:laser_source_list' %}">Laser Sources</a></li>
-                <li><a class="dropdown-item" href="{% url 'pages:laser_marking_parameters_list' %}">Laser Marking Parameters</a></li>
-                <!-- Add more dropdown items as needed -->
-            </ul>
-
-                <!-- Dropdown for Laser Color Marking API app -->
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="apiDropdown" role="button" data-bs-toggle="dropdown"
-        aria-expanded="false">API</a>
-    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="apiDropdown">
-        <li><a class="dropdown-item" href="{% url 'laser_cm_api:token_obtain_pair' %}">Generate API Key</a></li>
-        <!-- Add more dropdown items for other API endpoints -->
-        <!-- For example: -->
-        <li><a class="dropdown-item" href="{% url 'laser_cm_api:search-by-color' %}">Search Color API</a></li>
-
-        <!-- Add more API endpoint links as needed -->
-    </ul>
-</li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pages:about' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'pages:contact' %}">Contact Us</a>
                 </li>
                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Databases
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <li><a class="dropdown-item" href="{% url 'pages:home' %}">Home</a></li>
+                        <li><a class="dropdown-item" href="{% url 'pages:material_list' %}">Material List</a></li>
+                        <li><a class="dropdown-item" href="{% url 'pages:laser_source_list' %}">Laser Sources</a></li>
+                        <li><a class="dropdown-item" href="{% url 'pages:laser_marking_parameters_list' %}">Laser Marking Parameters</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="apiDropdown" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">API</a>
+                    <ul class="dropdown-menu" aria-labelledby="apiDropdown">
+                        <li><a class="dropdown-item" href="{% url 'laser_cm_api:docs' %}">Documentation</a></li>
+                    </ul>
+                </li>
+              <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="accountDropdown">
+                        data-bs-toggle="dropdown" aria-expanded="false">
 
+                        Profile
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="accountDropdown">
                         <li><a class="dropdown-item" href="{% url 'accounts:change_password' %}">Change password</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:change_profile' %}">Change profile</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:change_email' %}">Change email</a></li>
                         <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Log out</a></li>
-
-                        <!-- Add more dropdown items as needed -->
                     </ul>
 
                 </li>
-                                    {% endif %}
+                {% endif %}
                 {% else %}
-                <!-- Log In and Create an Account links -->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'accounts:login' %}">Log In</a>
                 </li>
@@ -85,7 +80,11 @@
                 {% endif %}
             </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+<!--END OF NAVBAR-->
+
+
     {% block content %}
     {% endblock %}
     <footer class="footer">

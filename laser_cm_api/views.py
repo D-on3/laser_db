@@ -1,24 +1,18 @@
-from django.shortcuts import render
-
-# Create your views here.
 from rest_framework import generics
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from pages.models import LaserMarkingParameters
-from .serializers import LaserMarkingParametersSerializer
-from pages.utils import ColorSpectrum, hex_to_rgb
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import authentication_classes, \
-    permission_classes
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from pages.utils import ColorSpectrum
 from pages.models import LaserMarkingParameters
-from laser_cm_api.serializers import ColorSearchSerializer
+from .serializers import LaserMarkingParametersSerializer, \
+    ColorSearchSerializer
+from pages.utils import ColorSpectrum, hex_to_rgb
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from pages.models import LaserMarkingParameters
+from .serializers import ColorSearchSerializer
+from pages.utils import ColorSpectrum
+from django.shortcuts import render
 
 
 class LaserMarkingParametersList(generics.ListAPIView):
@@ -34,8 +28,8 @@ class LaserMarkingParametersList(generics.ListAPIView):
                              if value}
 
             queryset = LaserMarkingParameters.objects.all()
-
             matching_colors = []
+
             for parameters in queryset:
                 current_color_classifier = ColorSpectrum([
                     (parameters.color_red, parameters.color_green,
@@ -53,20 +47,16 @@ class LaserMarkingParametersList(generics.ListAPIView):
             return LaserMarkingParameters.objects.all()
 
 
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
 class LaserMarkingParametersDetail(generics.RetrieveAPIView):
     queryset = LaserMarkingParameters.objects.all()
     serializer_class = LaserMarkingParametersSerializer
 
 
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+def landing_page(request):
+    return render(request, 'laser_cm_api/api.html')
+
+
 class ColorSearchAPIView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-
     def post(self, request, *args, **kwargs):
         serializer = ColorSearchSerializer(data=request.data)
         if serializer.is_valid():
@@ -106,27 +96,3 @@ class ColorSearchAPIView(APIView):
                 status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from .api_utils import api_request_with_user_token
-
-
-@login_required
-def make_api_request_view(request):
-    if request.method == 'POST':
-        user = request.user
-        api_data = api_request_with_user_token(user)
-
-        if api_data is not None:
-            # Handle the API response data
-            context = {'api_data': api_data}
-            return render(request, 'laser_cm_api/api.html', context)
-        else:
-            # Handle the case where API request failed
-            error_message = "API request failed."
-            context = {'error_message': error_message}
-            return render(request, 'laser_cm_api/api.html', context)
-
-    return render(request, 'laser_cm_api/api.html')

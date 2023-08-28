@@ -341,7 +341,7 @@ h6,
   top: 0;
   width: 130%;
   height: 95%;
-  background: linear-gradient(to bottom, rgba(188, 160, 188, 0.68), rgb(131, 160, 160)), url("../images/laser-marking-metal-product-edited.jpg") center top no-repeat;
+  background: linear-gradient(to bottom, rgba(105, 100, 105, 0.68), rgb(75, 84, 84)), url("../images/laser-marking-metal-product-edited.jpg") center top no-repeat;
   z-index: 0;
   border-radius: 0 0 50% 50%;
   transform: translateX(-50%) rotate(0deg);
@@ -354,7 +354,7 @@ h6,
   top: 0;
   width: 130%;
   height: 96%;
-  background: #83a0a0;
+  background: #575e5e;
   opacity: 0.3;
   z-index: 0;
   border-radius: 0 0 50% 50%;

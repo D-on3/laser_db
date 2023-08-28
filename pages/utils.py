@@ -6,7 +6,7 @@ from pages.models import LaserMarkingParameters, Material, LaserSource
 import datetime
 import os
 import django
-
+import colorsys
 
 
 # Now you can import your models
@@ -27,7 +27,7 @@ def rgb_to_hex(red, green, blue):
     hex_color = "#{:02X}{:02X}{:02X}".format(red, green, blue)
     return hex_color
 
-import colorsys
+
 
 class ColorSpectrum:
     def __init__(self, rgb_values):
@@ -132,8 +132,6 @@ def parse_data_string(data_string):
             authors=authors,
             research_date=timezone.datetime.strptime(str(research_date), "%Y-%m-%d %H:%M:%S%z")
         )
-
-
         # Set color values
         laser_parameters.color_red = color_red
         laser_parameters.color_green = color_green
@@ -145,7 +143,14 @@ def parse_data_string(data_string):
     return data_list
 
 if __name__ == "__main__":
+    import os
+    import sys
 
+    # assuming your django settings file is at '/home/laserparams/mysite/mysite/settings.py'
+    # and your manage.py is is at '/home/laserparams/mysite/manage.py'
+    path = '/home/laserparams/laser_db'
+    if path not in sys.path:
+        sys.path.append(path)
     # Set the DJANGO_SETTINGS_MODULE environment variable
     os.environ.setdefault("DJANGO_SETTINGS_MODULE",
                           "laser_db.settings")  # Replace "your_project_name" with the actual project name
