@@ -4,6 +4,22 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from django.contrib.auth.mixins import AccessMixin
+from django.shortcuts import redirect
+from django.urls import reverse
+
+
+class GuestOnlyView(AccessMixin):
+    """
+    View mixin that restricts access to only guest (non-authenticated) users.
+    """
+
+    def handle_no_permission(self):
+        if self.request.user.is_authenticated:
+            return redirect(reverse(
+                'your_app:dashboard'))  # Redirect authenticated users to dashboard or another view
+        return super().handle_no_permission()
+
 
 def send_mail(to, template, context):
     html_content = render_to_string(f'accounts/emails/{template}.html', context)

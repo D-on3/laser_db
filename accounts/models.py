@@ -8,3 +8,4 @@ class Activation(models.Model):
     code = models.CharField(max_length=20, unique=True)
     email = models.EmailField(blank=True)
     image= models.ImageField()
+    token = models.CharField(max_length=255, blank=True, null=True)

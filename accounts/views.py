@@ -39,17 +39,30 @@ class GuestOnlyView(View):
         return super().dispatch(request, *args, **kwargs)
 
 
+from django.contrib.auth import REDIRECT_FIELD_NAME, login
+from django.shortcuts import redirect
+
+
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
+from django.utils.decorators import method_decorator
+from django.views.generic.edit import FormView
+from django.conf import settings
+from accounts.forms import SignInViaEmailForm, SignInViaEmailOrUsernameForm, SignInViaUsernameForm
+from accounts.utils import GuestOnlyView
+
 class LogInView(GuestOnlyView, FormView):
     template_name = 'accounts/log_in.html'
 
-    @staticmethod
-    def get_form_class(**kwargs):
+    # Use classmethod instead of staticmethod to be more consistent with class-based views
+    @classmethod
+    def get_form_class(cls):
         if settings.DISABLE_USERNAME or settings.LOGIN_VIA_EMAIL:
             return SignInViaEmailForm
-
         if settings.LOGIN_VIA_EMAIL_OR_USERNAME:
             return SignInViaEmailOrUsernameForm
-
         return SignInViaUsernameForm
 
     @method_decorator(sensitive_post_parameters('password'))
@@ -64,7 +77,7 @@ class LogInView(GuestOnlyView, FormView):
     def form_valid(self, form):
         request = self.request
 
-        # If the test cookie worked, go ahead and delete it since its no longer needed
+        # If the test cookie worked, go ahead and delete it since it's no longer needed
         if request.session.test_cookie_worked():
             request.session.delete_test_cookie()
 

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 import os
 from os.path import dirname
@@ -39,36 +40,65 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework_api_key',
-    'rest_framework.authtoken',
+
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'rest_auth',
-    'rest_auth.registration',
-    'rest_framework_simplejwt.token_blacklist',
+
     'django_bootstrap5',
     "pages",
-    'laser_color_marking_api',
+
     "accounts",
     "bootstrap4",
     'allauth.socialaccount',
+    'laser_cm_api',
+
+    'rest_auth',
+    'rest_auth.registration',
+    'rest_framework_simplejwt.token_blacklist',
+    'rest_framework',
+    'rest_framework_api_key',
+    'rest_framework.authtoken',  # Add this line
+    'rest_framework_simplejwt',  # Add this line
+
 ]
 
+# Token expiration in seconds (e.g., 3600 seconds = 1 hour)
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    'DEFAULT_SETTINGS': {
+        'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework.authentication.TokenAuthentication',
+        ],
+        'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated',
+        ],
+        'DEFAULT_PARSER_CLASSES': [
+            'rest_framework.parsers.JSONParser',
+        ],
+        'DEFAULT_RENDERER_CLASSES': [
+            'rest_framework.renderers.JSONRenderer',
+        ],
+        'DEFAULT_THROTTLE_CLASSES': [
+            'rest_framework.throttling.UserRateThrottle',
+        ],
+        'DEFAULT_THROTTLE_RATES': {
+            'user': '1000/day',
+        },
+    },
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
-
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'ROTATE_REFRESH_TOKENS': True,
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+    # Set token lifetime as needed
+
 }
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

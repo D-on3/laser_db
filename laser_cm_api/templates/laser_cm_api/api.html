@@ -1,0 +1,17 @@
+<!-- Include other HTML content above if needed -->
+<div id="api-request-form" style="display: none;">
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Make API Request</button>
+    </form>
+</div>
+
+<button id="show-form-button" class="btn btn-primary">Show API Request Form</button>
+
+<script>
+document.getElementById("show-form-button").addEventListener("click", function() {
+    document.getElementById("api-request-form").style.display = "block";
+    this.style.display = "none"; // Hide the "Show API Request Form" button
+});
+</script>
+<!-- Include other HTML content below if needed -->
