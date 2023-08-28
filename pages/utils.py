@@ -7,12 +7,7 @@ import datetime
 import os
 import django
 
-# Set the DJANGO_SETTINGS_MODULE environment variable
-os.environ.setdefault("DJANGO_SETTINGS_MODULE",
-                      "laser_db.settings")  # Replace "your_project_name" with the actual project name
 
-# Initialize Django
-django.setup()
 
 # Now you can import your models
 def hex_to_rgb(hex_color):
@@ -150,6 +145,14 @@ def parse_data_string(data_string):
     return data_list
 
 if __name__ == "__main__":
+
+    # Set the DJANGO_SETTINGS_MODULE environment variable
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE",
+                          "laser_db.settings")  # Replace "your_project_name" with the actual project name
+
+    # Initialize Django
+    django.setup()
+
     data_laserdb = '''
 54,30,104,Ti, Nd-YAG,1064,550,20,10,80,200,2,"E. Sprudzs-A. Blums-J. Aulins","2021"
 99,57,133,AISI_304, UV,355,400,7.1,30,40,25,-3,"Y. Liu-H. Zheng-Z. Li","2020"
