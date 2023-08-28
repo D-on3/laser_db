@@ -100,6 +100,7 @@ SIMPLE_JWT = {
     # Set token lifetime as needed
 
 }
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
