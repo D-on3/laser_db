@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>List of Laser Marking Parameters</h1>
+    <h1>Matching Laser Marking Parameters</h1>
     <table class="table table-bordered">
         <tr>
             <th>Material</th>
@@ -18,7 +18,7 @@
             <th>Color of the Mark</th>
             <th>Details</th>
         </tr>
-        {% for marking_parameters in laser_marking_parameters %}
+        {% for marking_parameters in matching_colors %}
             <tr>
                 <td>{{ marking_parameters.material }}</td>
                 <td>{{ marking_parameters.laser_source }}</td>
@@ -36,12 +36,10 @@
                                                  {{ marking_parameters.color_blue }});
                             border: 1px solid black;">
                     &nbsp;
-
-                <td><a href="{% url 'pages:laser_marking_parameters_detail' marking_parameters.id %}" class="btn btn-primary">Details</a></td>
-
-                    <td><a href="{% url 'pages:update_view' marking_parameters.pk %}" class="btn btn-warning btn-sm">Update</a><td>
-                 <td>   <a href="{% url 'pages:delete_view' marking_parameters.pk %}" class="btn btn-danger btn-sm">Delete</a><td>
-
+                </td>
+                <td>
+                    <a href="{% url 'pages:laser_marking_parameters_detail' marking_parameters.id %}" class="btn btn-primary">Details</a>
+                </td>
             </tr>
         {% endfor %}
     </table>

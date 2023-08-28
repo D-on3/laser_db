@@ -12,3 +12,12 @@ class LaserSourceForm(forms.ModelForm):
     class Meta:
         model = LaserSource
         fields = '__all__'
+
+
+
+class GaeParamsForm(forms.Form):
+    hex_color = forms.CharField(
+        label='Choose a Color',
+        max_length=7,
+        widget=forms.TextInput(attrs={'type': 'color'}),
+    )

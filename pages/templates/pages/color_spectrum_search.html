@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Color Spectrum Classification</h1>
+    {% for color, colors_list in classified_colors.items %}
+        <h2>{{ color.capitalize() }} Colors:</h2>
+        <ul>
+            {% for rgb in colors_list %}
+                <li style="background-color: rgb({{ rgb.0 }}, {{ rgb.1 }}, {{ rgb.2 }});">
+                    RGB: {{ rgb.0 }}, {{ rgb.1 }}, {{ rgb.2 }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% endblock %}

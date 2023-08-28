@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Details of Laser Marking Parameters</h1>
+    <table class="table table-bordered">
+        <tr>
+            <th>Material</th>
+            <td>{{ marking_parameters.material }}</td>
+        </tr>
+        <tr>
+            <th>Laser Source</th>
+            <td>{{ marking_parameters.laser_source }}</td>
+        </tr>
+        <tr>
+            <th>Scanning Speed</th>
+            <td>{{ marking_parameters.scanning_speed }}</td>
+        </tr>
+        <tr>
+            <th>Average Power</th>
+            <td>{{ marking_parameters.average_power }}</td>
+        </tr>
+        <tr>
+            <th>Scan Step</th>
+            <td>{{ marking_parameters.scan_step }}</td>
+        </tr>
+        <tr>
+            <th>Pulse Duration</th>
+            <td>{{ marking_parameters.pulse_duration }}</td>
+        </tr>
+        <tr>
+            <th>Pulse Repetition Rate</th>
+            <td>{{ marking_parameters.pulse_repetition_rate }}</td>
+        </tr>
+        <tr>
+            <th>Overlap Coefficient</th>
+            <td>{{ marking_parameters.overlap_coefficient }}</td>
+        </tr>
+        <tr>
+            <th>Volumetric Density of Energy</th>
+            <td>{{ marking_parameters.volumetric_density_of_energy }}</td>
+        </tr>
+        <tr>
+            <th>Author</th>
+            <td>{{ marking_parameters.author }}</td>
+        </tr>
+        <tr>
+            <th>Date Published</th>
+            <td>{{ marking_parameters.date_published }}</td>
+        </tr>
+        <tr>
+            <th>Research Date</th>
+            <td>{{ marking_parameters.research_date }}</td>
+        </tr>
+        <tr>
+            <th>Color of the Mark</th>
+            <td style="background-color: rgb({{ marking_parameters.color_red }},
+                                             {{ marking_parameters.color_green }},
+                                             {{ marking_parameters.color_blue }});
+                    border: 1px solid black;">
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <a href="{% url 'pages:laser_marking_parameters_list' %}">Back to List</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Update Laser Marking Parameters</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'pages:list_view' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}

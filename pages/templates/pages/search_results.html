@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Search Results</h1>
+    <table class="table table-bordered">
+        <tr>
+            <th>Material</th>
+            <th>Laser Source</th>
+            <th>Scanning Speed</th>
+            <th>Average Power</th>
+            <th>Scan Step</th>
+            <th>Pulse Duration</th>
+            <th>Pulse Repetition Rate</th>
+            <th>Overlap Coefficient</th>
+            <th>Author</th>
+            <th>Research Date</th>
+            <th>Color of the Mark</th>
+        </tr>
+        {% for sample in samples %}
+            <tr>
+                <td>{{ sample.material }}</td>
+                <td>{{ sample.laser_source }}</td>
+                <td>{{ sample.scanning_speed }}</td>
+                <td>{{ sample.average_power }}</td>
+                <td>{{ sample.scan_step }}</td>
+                <td>{{ sample.pulse_duration }}</td>
+                <td>{{ sample.pulse_repetition_rate }}</td>
+                <td>{{ sample.overlap_coefficient }}</td>
+                <td>{{ sample.authors }}</td>
+                <td>{{ sample.research_date }}</td>
+                <td style="background-color: rgb({{ sample.color_red }},
+                                                 {{ sample.color_green }},
+                                                 {{ sample.color_blue }});
+                            border: 1px solid black;">
+                    &nbsp;
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
