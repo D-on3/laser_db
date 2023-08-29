@@ -1,10 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>List of Laser Sources</h1>
-    <ul>
-        {% for laser_source in laser_sources %}
-            <li>{{ laser_source.name }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>List of Laser Sources</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Wavelength</th>
+                    <th scope="col">Type of Laser</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for laser_source in laser_sources %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ laser_source.name }}</td>
+                        <td>{{ laser_source.wavelength }}</td>
+                        <td>{{ laser_source.type_of_laser }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

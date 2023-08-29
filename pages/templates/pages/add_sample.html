@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">Add New Sample</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Add Sample</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a href="{% url 'pages:add_laser_source' %}" class="btn btn-secondary">Add New Laser Source</a>
+        <a href="{% url 'pages:add_material' %}" class="btn btn-secondary">Add New Material</a>
+    </div>
+{% endblock %}

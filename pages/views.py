@@ -1,15 +1,27 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import LaserMarkingParameters  # Import your model
 
-import colorsys
-from .forms import GaeParamsForm
-from .models import LaserMarkingParameters, Material, LaserSource
-from django.shortcuts import render
-from .utils import ColorSpectrum, hex_to_rgb
+from .forms import (
+    GaeParamsForm,
+
+    LaserSourceForm,
+    MaterialForm,
+    AddSampleForm
+)
+
+from .models import (
+    LaserMarkingParameters,
+    Material,
+    LaserSource
+)
+
+from .utils import (
+    ColorSpectrum,
+
+)
 
 # Define the rgb_values for your samples
 rgb_values = [
@@ -21,6 +33,85 @@ rgb_values = [
     (75, 0, 130),  # indigo
     (238, 130, 238),  # violet
 ]
+
+
+def add_sample(request):
+    if request.method == 'POST':
+        form = AddSampleForm(request.POST)
+        if form.is_valid():
+            # Create a new instance of LaserMarkingParameters using the form data
+            laser_marking_parameters = LaserMarkingParameters(
+                laser_source=form.cleaned_data['laser_source'],
+                material=form.cleaned_data['material'],
+                scanning_speed=form.cleaned_data['scanning_speed'],
+                average_power=form.cleaned_data['average_power'],
+                scan_step=form.cleaned_data['scan_step'],
+                pulse_duration=form.cleaned_data['pulse_duration'],
+                pulse_repetition_rate=form.cleaned_data[
+                    'pulse_repetition_rate'],
+                focus=form.cleaned_data['focus'],
+                color_red=form.cleaned_data['color_red'],
+                color_green=form.cleaned_data['color_green'],
+                color_blue=form.cleaned_data['color_blue'],
+                authors=form.cleaned_data['authors'],
+                research_date=form.cleaned_data['research_date']
+            )
+            laser_marking_parameters.save()
+            return redirect(
+                'pages:matching_colors')  # Replace with your URL name
+    else:
+        form = AddSampleForm()
+
+    return render(request, 'pages/add_sample.html', {'form': form})
+
+
+def update_material(request, pk):
+    material = get_object_or_404(Material, pk=pk)
+
+    if request.method == 'POST':
+        form = MaterialForm(request.POST, instance=material)
+        if form.is_valid():
+            form.save()
+            return redirect('pages:laser_marking_parameters_list')
+    else:
+        form = MaterialForm(instance=material)
+
+    return render(request, 'pages/update_material.html', {'form': form})
+
+
+def delete_material(request, pk):
+    material = get_object_or_404(Material, pk=pk)
+
+    if request.method == 'POST':
+        material.delete()
+        return redirect('pages:laser_marking_parameters_list')
+
+    return render(request, 'pages/delete_material.html',
+                  {'material': material})
+
+
+def add_laser_source(request):
+    if request.method == 'POST':
+        form = LaserSourceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                'pages:add_sample')  # Redirect to the main add sample page
+    else:
+        form = LaserSourceForm()
+    return render(request, 'pages/add_laser_source.html', {'form': form})
+
+
+def add_material(request):
+    if request.method == 'POST':
+        form = MaterialForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(
+                'pages:add_sample')  # Redirect to the main add sample page
+    else:
+        form = MaterialForm()
+    return render(request, 'pages/add_material.html', {'form': form})
 
 
 @method_decorator(login_required, name='dispatch')

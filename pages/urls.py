@@ -1,21 +1,27 @@
 from django.urls import path
-from . import views
 from .views import *
 
 app_name = "pages"
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('about/', views.about, name='about'),
-    path('contact/', views.contact, name='contact'),
-    path('materials/', views.material_list, name='material_list'),
-    path('laser-sources/', views.laser_source_list, name='laser_source_list'),
-    path('laser-marking-parameters/', views.laser_marking_parameters_list,
+    path('', home, name='home'),
+    path('about/', about, name='about'),
+    path('contact/', contact, name='contact'),
+    path('materials/', material_list, name='material_list'),
+    path('laser-sources/', laser_source_list, name='laser_source_list'),
+    path('laser-marking-parameters/', laser_marking_parameters_list,
          name='laser_marking_parameters_list'),
     # Add the following line for the details view
     path('laser-marking-parameters/<int:pk>/',
-         views.laser_marking_parameters_detail,
+         laser_marking_parameters_detail,
          name='laser_marking_parameters_detail'),
     path('update/<int:pk>/', UpdateView.as_view(), name='update_view'),
     path('delete/<int:pk>/', DeleteView.as_view(), name='delete_view'),
-    path('search/', views.search_results, name='search_colors'),
+    path('search/', search_results, name='search_colors'),
+    path('add_sample/', add_sample, name='add_sample'),
+    path('add_laser_source/', add_laser_source, name='add_laser_source'),
+    path('add_material/', add_material, name='add_material'),
+    path('material/<int:pk>/update/', update_material,
+         name='update_material'),
+    path('material/<int:pk>/delete/', delete_material,
+         name='delete_material'),
 ]
