@@ -10,3 +10,7 @@
 /.idea/
 /venv/
 /node_modules/
+/accounts/migrations/0001_initial.py
+/pages/migrations/0001_initial.py
+/combined_docs.html
+/write_doc.sh
