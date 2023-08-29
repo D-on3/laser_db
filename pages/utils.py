@@ -12,7 +12,8 @@ import colorsys
 # Now you can import your models
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
-    return tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+    return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
+
 
 # Rest of your script...
 
@@ -26,7 +27,6 @@ def rgb_to_hex(red, green, blue):
     """
     hex_color = "#{:02X}{:02X}{:02X}".format(red, green, blue)
     return hex_color
-
 
 
 class ColorSpectrum:
@@ -67,7 +67,6 @@ class ColorSpectrum:
 
         return classified_colors
 
-
     def __str__(self):
         return f"{self.classified_colors}"
 
@@ -81,8 +80,12 @@ def get_value(value):
         return float(value)
     else:
         return value.strip('"')
+
+
 def get_author(value):
     return value
+
+
 def parse_data_string(data_string):
     data_list = []
     lines = data_string.strip().split('\n')
@@ -117,7 +120,8 @@ def parse_data_string(data_string):
         )
 
         material_obj, _ = Material.objects.get_or_create(name=material_name)
-        print((timezone.datetime.strptime(str(research_date),"%Y-%m-%d %H:%M:%S%z")))
+        print((timezone.datetime.strptime(str(research_date),
+                                          "%Y-%m-%d %H:%M:%S%z")))
         laser_parameters = LaserMarkingParameters(
             # The above code is assigning the value of the variable
             # "laser_source_obj" to the variable "laser_source".
@@ -130,7 +134,8 @@ def parse_data_string(data_string):
             pulse_repetition_rate=pulse_repetition_rate,
             focus=focus,
             authors=authors,
-            research_date=timezone.datetime.strptime(str(research_date), "%Y-%m-%d %H:%M:%S%z")
+            research_date=timezone.datetime.strptime(str(research_date),
+                                                     "%Y-%m-%d %H:%M:%S%z")
         )
         # Set color values
         laser_parameters.color_red = color_red
@@ -142,22 +147,8 @@ def parse_data_string(data_string):
 
     return data_list
 
-if __name__ == "__main__":
-    import os
-    import sys
 
-    # assuming your django settings file is at '/home/laserparams/mysite/mysite/settings.py'
-    # and your manage.py is is at '/home/laserparams/mysite/manage.py'
-    path = '/home/laserparams/laser_db'
-    if path not in sys.path:
-        sys.path.append(path)
-    # Set the DJANGO_SETTINGS_MODULE environment variable
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE",
-                          "laser_db.settings")  # Replace "your_project_name" with the actual project name
-
-    # Initialize Django
-    django.setup()
-
+def run_utils():
     data_laserdb = '''
 54,30,104,Ti, Nd-YAG,1064,550,20,10,80,200,2,"E. Sprudzs-A. Blums-J. Aulins","2021"
 99,57,133,AISI_304, UV,355,400,7.1,30,40,25,-3,"Y. Liu-H. Zheng-Z. Li","2020"
@@ -239,7 +230,6 @@ if __name__ == "__main__":
     # Print the data
 
     data_list = parse_data_string(data_laserdb)
-
 
     # Save data to the database
     for parameters in data_list:

@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic.edit import UpdateView, DeleteView
+
 
 from .forms import (
     GaeParamsForm,
@@ -101,6 +102,12 @@ def add_laser_source(request):
         form = LaserSourceForm()
     return render(request, 'pages/laser_sources/add_laser_source.html', {'form': form})
 
+from django.shortcuts import render
+from .utils import run_utils
+
+def run_util_code_view(request):
+    run_utils()  # Call the function from utils.py
+    return render(request, 'pages/run_util_code.html')
 
 def add_material(request):
     if request.method == 'POST':
@@ -117,16 +124,36 @@ def add_material(request):
 @method_decorator(login_required, name='dispatch')
 class UpdateView(UpdateView):
     model = LaserMarkingParameters
-    template_name = 'pages/laser_parameters_update.html'  # Create a template for update view
+    template_name = 'pages/laser_markin_parameters/laser_parameters_update.html'  # Create a template for update view
+    success_url = reverse_lazy(
+        'pages:laser_marking_parameters_list')  # Redirect after successful deletion
     fields = '__all__'  # You can customize which fields to display and update
 
+
+
+# List view
+def laser_source_list(request):
+    laser_sources = LaserSource.objects.all()
+    return render(request, 'pages/laser_sources/laser_source_list.html', {'laser_sources': laser_sources})
+
+# Update view
+class LaserSourceUpdateView(UpdateView):
+    model = LaserSource
+    form_class = LaserSourceForm
+    template_name = 'pages/laser_sources/laser_source_form.html'  # Update with your template path
+    success_url = reverse_lazy('pages:laser_source_list')  # Update with your URL name
+
+# Delete view
+class LaserSourceDeleteView(DeleteView):
+    model = LaserSource
+    success_url = reverse_lazy('pages:laser_source_list')  # Update with your URL name
 
 @method_decorator(login_required, name='dispatch')
 class DeleteView(DeleteView):
     model = LaserMarkingParameters
-    template_name = 'pages/delete.html'  # Create a template for delete confirmation
+    template_name = 'pages/laser_markin_parameters/laser_parameters_delete.html'  # Create a template for delete confirmation
     success_url = reverse_lazy(
-        'pages:list_view')  # Redirect after successful deletion
+        'pages:laser_marking_parameters_list')  # Redirect after successful deletion
 
 
 def search_results(request):
