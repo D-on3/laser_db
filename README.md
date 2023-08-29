@@ -205,3 +205,7 @@ Template for user login page. Displays login form and related links.
 Template for displaying a message after user logout. Provides a link to log in again.
 
 ... (Document other templates)
+
+
+
+add diameter of focus_point
