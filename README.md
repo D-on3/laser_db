@@ -130,3 +130,78 @@ classDiagram
     Material --> LaserMarkingParameters : has
     LaserSource --> LaserMarkingParameters : has
 ```
+
+
+# Accounts App Documentation
+
+The **Accounts** app in this Django project handles user authentication, registration, and profile management. This documentation provides an in-depth overview of the app's components, including models, views, URLs, forms, and templates.
+
+## Table of Contents
+
+1. [Models](#models)
+2. [Views](#views)
+3. [URLs](#urls)
+4. [Forms](#forms)
+5. [Templates](#templates)
+
+## Models
+
+### Activation
+
+The `Activation` model represents user activation records, which are used during the account activation process.
+
+Fields:
+- `user`: ForeignKey to the built-in `User` model.
+- `created_at`: DateTimeField recording the creation timestamp.
+- `code`: CharField to store a unique activation code.
+- `email`: EmailField to store an associated email address.
+- `image`: ImageField to store an image related to the activation.
+- `token`: CharField to store a token (optional).
+
+## Views
+
+### LogInView
+
+View for user login. Handles different methods of login based on settings.
+
+### SignUpView
+
+View for user sign up. Creates new user accounts with optional activation.
+
+... (Document other views)
+
+## URLs
+
+### log-in/
+
+URL for user login using different methods (username, email, or both).
+
+### sign-up/
+
+URL for user sign up.
+
+... (Document other URLs)
+
+## Forms
+
+### SignIn
+
+Form for user login, including password.
+
+### SignUpForm
+
+Form for user registration, including username, email, and password.
+
+... (Document other forms)
+
+## Templates
+
+### login.html
+
+Template for user login page. Displays login form and related links.
+
+### logout.html
+
+Template for displaying a message after user logout. Provides a link to log in again.
+
+... (Document other templates)

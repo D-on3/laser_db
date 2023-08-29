@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate, REDIRECT_FIELD_NAME
+from django.contrib.auth import  authenticate
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import (
@@ -43,15 +43,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME, login
 from django.shortcuts import redirect
 
 
-from django.utils.http import url_has_allowed_host_and_scheme
-from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.debug import sensitive_post_parameters
-from django.utils.decorators import method_decorator
-from django.views.generic.edit import FormView
-from django.conf import settings
-from accounts.forms import SignInViaEmailForm, SignInViaEmailOrUsernameForm, SignInViaUsernameForm
-from accounts.utils import GuestOnlyView
+
 
 class LogInView(GuestOnlyView, FormView):
     template_name = 'accounts/log_in.html'
