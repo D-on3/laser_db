@@ -62,7 +62,7 @@ def add_sample(request):
     else:
         form = AddSampleForm()
 
-    return render(request, 'pages/add_sample.html', {'form': form})
+    return render(request, 'pages/laser_markin_parameters/add_sample.html', {'form': form})
 
 
 def update_material(request, pk):
@@ -76,7 +76,7 @@ def update_material(request, pk):
     else:
         form = MaterialForm(instance=material)
 
-    return render(request, 'pages/update_material.html', {'form': form})
+    return render(request, 'pages/materials/update_material.html', {'form': form})
 
 
 def delete_material(request, pk):
@@ -86,7 +86,7 @@ def delete_material(request, pk):
         material.delete()
         return redirect('pages:laser_marking_parameters_list')
 
-    return render(request, 'pages/delete_material.html',
+    return render(request, 'pages/materials/delete_material.html',
                   {'material': material})
 
 
@@ -99,7 +99,7 @@ def add_laser_source(request):
                 'pages:add_sample')  # Redirect to the main add sample page
     else:
         form = LaserSourceForm()
-    return render(request, 'pages/add_laser_source.html', {'form': form})
+    return render(request, 'pages/laser_sources/add_laser_source.html', {'form': form})
 
 
 def add_material(request):
@@ -111,7 +111,7 @@ def add_material(request):
                 'pages:add_sample')  # Redirect to the main add sample page
     else:
         form = MaterialForm()
-    return render(request, 'pages/add_material.html', {'form': form})
+    return render(request, 'pages/materials/add_material.html', {'form': form})
 
 
 @method_decorator(login_required, name='dispatch')
@@ -139,7 +139,7 @@ def search_results(request):
             rgb_color = tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
 
             if len(rgb_color) != 3:
-                return render(request, 'pages/search_color.html',
+                return render(request, 'pages/search_logic/search_color.html',
                               {'form': form,
                                'error_message': 'Invalid RGB color'})
 
@@ -164,36 +164,36 @@ def search_results(request):
                 if current_color_classifier.keys() == filtered_dict.keys():
                     matching_colors.append(current_color)
 
-            return render(request, 'pages/matching_colors.html',
+            return render(request, 'pages/search_logic/matching_colors.html',
                           {'form': form, 'matching_colors': matching_colors})
 
-    return render(request, 'pages/search_color.html', {'form': form})
+    return render(request, 'pages/search_logic/search_color.html', {'form': form})
 
 
 def home(request):
-    return render(request, 'pages/home.html')
+    return render(request, 'pages/views/home.html')
 
 
 def about(request):
-    return render(request, 'pages/about.html')
+    return render(request, 'pages/views/about.html')
 
 
 def contact(request):
-    return render(request, 'pages/contact.html')
+    return render(request, 'pages/views/contact.html')
 
 
 @login_required
 def material_list(request):
     materials = Material.objects.all()
     context = {'materials': materials}
-    return render(request, 'pages/material_list.html', context)
+    return render(request, 'pages/materials/material_list.html', context)
 
 
 @login_required
 def laser_source_list(request):
     laser_sources = LaserSource.objects.all()
     context = {'laser_sources': laser_sources}
-    return render(request, 'pages/laser_source_list.html', context)
+    return render(request, 'pages/laser_sources/laser_source_list.html', context)
 
 
 @login_required
@@ -202,7 +202,8 @@ def laser_marking_parameters_list(request):
 
     context = {'laser_marking_parameters': marking_parameters}
     print(context)
-    return render(request, 'pages/laser_marking_parameters_list.html',
+    return render(request,
+                  'pages/laser_markin_parameters/laser_marking_parameters_list.html',
                   context)
 
 
@@ -210,5 +211,6 @@ def laser_marking_parameters_list(request):
 def laser_marking_parameters_detail(request, pk):
     marking_parameters = get_object_or_404(LaserMarkingParameters, pk=pk)
     context = {'marking_parameters': marking_parameters}
-    return render(request, 'pages/laser_marking_parameters_detail.html',
+    return render(request,
+                  'pages/laser_markin_parameters/laser_marking_parameters_detail.html',
                   context)
