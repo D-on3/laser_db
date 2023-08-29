@@ -1,10 +1,14 @@
 from rest_framework import serializers
 from pages.models import LaserMarkingParameters
 
+# The LaserMarkingParametersSerializer class is a serializer for laser marking
+# parameters.
 class LaserMarkingParametersSerializer(serializers.ModelSerializer):
     class Meta:
         model = LaserMarkingParameters
         fields = '__all__'
+# The ColorSearchSerializer class is a serializer for color search
+# functionality.
 
 
 class ColorSearchSerializer(serializers.Serializer):

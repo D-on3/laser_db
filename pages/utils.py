@@ -11,6 +11,15 @@ import colorsys
 
 # Now you can import your models
 def hex_to_rgb(hex_color):
+    """
+    The function `hex_to_rgb` converts a hexadecimal color code to its
+    corresponding RGB values.
+
+    :param hex_color: The hex_color parameter is a string representing a
+    hexadecimal color code
+    :return: a tuple of three integers representing the RGB values of the given
+    hex color.
+    """
     hex_color = hex_color.lstrip('#')
     return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
 
@@ -31,9 +40,22 @@ def rgb_to_hex(red, green, blue):
 
 class ColorSpectrum:
     def __init__(self, rgb_values):
+        """
+        The function initializes an object with RGB values.
+
+        :param rgb_values: The `rgb_values` parameter is a list that contains
+        three integers representing the red, green, and blue values of a color
+        """
         self.rgb_values = rgb_values
 
     def classify_colors_by_spectrum(self):
+        """
+        The function `classify_colors_by_spectrum` classifies RGB color values
+        into different color categories based on their hue.
+        :return: a dictionary called `classified_colors`. This dictionary contains
+        lists of RGB values classified by their color spectrum, with keys
+        representing different colors such as "red", "orange", "yellow", etc.
+        """
         classified_colors = {
             "red": [],
             "orange": [],
@@ -72,6 +94,17 @@ class ColorSpectrum:
 
 
 def get_value(value):
+    """
+    The function `get_value` converts a string value to its appropriate data type
+    (integer, float, or string) or returns None if the value is '-'.
+
+    :param value: The `value` parameter is a variable that represents the input
+    value that needs to be converted. It can be of any data type, such as a
+    string, integer, float, or None. The purpose of the `get_value` function is to
+    convert the input value to the appropriate data type based
+    :return: The function `get_value` returns different types of values based on
+    the input:
+    """
     if value == '-':
         return None
     elif value.isdigit():
@@ -87,6 +120,17 @@ def get_author(value):
 
 
 def parse_data_string(data_string):
+    """
+    The function `parse_data_string` takes a data string as input, parses it into
+    individual values, and creates a list of LaserMarkingParameters objects based
+    on the parsed values.
+
+    :param data_string: The `data_string` parameter is a string that contains
+    multiple lines of data, where each line represents a set of parameters for
+    laser marking. Each line is comma-separated and contains the following values:
+    :return: The function `parse_data_string` returns a list of
+    `LaserMarkingParameters` objects.
+    """
     data_list = []
     lines = data_string.strip().split('\n')
     for line in lines:
@@ -148,6 +192,9 @@ def parse_data_string(data_string):
     return data_list
 
 
+# The above code is importing a module called "run_utils" in Python.
+# The above code is importing a module called "run_utils" in Python.
+# The above code is importing a module called "run_utils" in Python.
 def run_utils():
     data_laserdb = '''
 54,30,104,Ti, Nd-YAG,1064,550,20,10,80,200,2,"E. Sprudzs-A. Blums-J. Aulins","2021"

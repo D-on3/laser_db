@@ -15,10 +15,18 @@ from pages.utils import ColorSpectrum
 from django.shortcuts import render
 
 
+# The class LaserMarkingParametersList is a generic ListAPIView.
 class LaserMarkingParametersList(generics.ListAPIView):
     serializer_class = LaserMarkingParametersSerializer
 
     def get_queryset(self):
+        """
+        The `get_queryset` function filters `LaserMarkingParameters` objects based
+        on a given hex color or returns all objects if no color is provided.
+        :return: The code is returning a list of LaserMarkingParameters objects
+        that match the specified hex_color or all LaserMarkingParameters objects
+        if no hex_color is provided.
+        """
         hex_color = self.request.query_params.get('hex_color', None)
         if hex_color:
             rgb_color = hex_to_rgb(hex_color.lstrip('#'))
@@ -47,17 +55,46 @@ class LaserMarkingParametersList(generics.ListAPIView):
             return LaserMarkingParameters.objects.all()
 
 
+# The class LaserMarkingParametersDetail is a generic API view for retrieving a
+# specific laser marking parameter detail.
 class LaserMarkingParametersDetail(generics.RetrieveAPIView):
     queryset = LaserMarkingParameters.objects.all()
     serializer_class = LaserMarkingParametersSerializer
 
 
 def landing_page(request):
+    """
+    The `landing_page` function renders the `api.html` template for the Laser CM
+    API.
+
+    :param request: The request parameter is an object that represents the HTTP
+    request made by the client. It contains information such as the HTTP method
+    (GET, POST, etc.), headers, user session, and any data sent in the request
+    body. In this case, it is used to render the 'laser_cm_api
+    :return: the rendered HTML template 'laser_cm_api/api.html'.
+    """
     return render(request, 'laser_cm_api/api.html')
 
 
+# The ColorSearchAPIView is an API view that handles color search functionality.
 class ColorSearchAPIView(APIView):
     def post(self, request, *args, **kwargs):
+        """
+        The above function takes a hex color as input, converts it to RGB,
+        classifies it based on a color spectrum, and then matches it with colors
+        in a database based on the classification.
+
+        :param request: The `request` parameter is an object that represents the
+        HTTP request made to the server. It contains information such as the
+        request method (GET, POST, etc.), headers, body, and query parameters. In
+        this code snippet, the `request` object is used to access the data sent in
+        the
+        :return: The code is returning a response with the matching colors in the
+        database that match the given hex color. The matching colors are
+        serialized using the LaserMarkingParametersSerializer and returned in the
+        response data. The status code of the response is either 200 if the
+        request is valid or 400 if there are validation errors.
+        """
         serializer = ColorSearchSerializer(data=request.data)
         if serializer.is_valid():
             hex_color = serializer.validated_data['hex_color']

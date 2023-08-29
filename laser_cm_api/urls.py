@@ -9,11 +9,7 @@ from .views import *
 
 app_name = "laser_cm_api"
 urlpatterns = [
-    # ...
-    # path('token/', TokenObtainPairView.as_view(),
-    #      name='token_obtain_pair'),
-    # path('api/token/refresh/', TokenRefreshView.as_view(),
-    #      name='token_refresh'),
+
     path('marking-parameters/', LaserMarkingParametersList.as_view(),
          name='marking-parameters-list'),
     path('marking-parameters/<int:pk>/',
