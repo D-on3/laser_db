@@ -26,11 +26,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Include the URLs for your apps
-    path('', include('laser_color_marking_db.urls', namespace='laser_color_marking_db')),
+    path('', include('laser_color_marking_db.urls',
+                     namespace='laser_color_marking_db')),
     path('api/', include(('laser_cm_api.urls', 'laser_cm_api'),
                          namespace='laser_cm_api')),
     path('acc/', include('accounts.urls', namespace='accounts')),
-
+    path('laser_optimization/', include('laser_cm_optimisation.urls',namespace="laser_optimisation")),
 
 ]
 

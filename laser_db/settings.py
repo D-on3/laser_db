@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',  # Add this line
 
     "laser_color_marking_db",
+    "laser_cm_optimisation",
     "accounts",
     'laser_cm_api',
 

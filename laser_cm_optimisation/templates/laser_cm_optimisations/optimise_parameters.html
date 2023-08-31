@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <label for="material">Select Material:</label>
+  <select name="material" id="material">
+    {% for material in materials %}
+      <option value="{{ material.id }}">{{ material.name }}</option>
+    {% endfor %}
+  </select><br>
+  <label for="laser_source">Select Laser Source:</label>
+  <select name="laser_source" id="laser_source">
+    {% for laser_source in laser_sources %}
+      <option value="{{ laser_source.id }}">{{ laser_source.name }}</option>
+    {% endfor %}
+  </select><br>
+  <button type="submit">Optimize</button>
+</form>
+
+{% if optimized_parameters %}
+  <h3>Optimized Parameters:</h3>
+  <ul>
+    <li>Parameter 1: {{ optimized_parameters.0 }}</li>
+    <li>Parameter 2: {{ optimized_parameters.1 }}</li>
+    <li>Parameter 3: {{ optimized_parameters.2 }}</li>
+  <li> <button href="{% url "laser_cm_optimisation:plot" %}">show results</button></li>
+  </ul>
+{% endif %}
+
+{% endblock %}
