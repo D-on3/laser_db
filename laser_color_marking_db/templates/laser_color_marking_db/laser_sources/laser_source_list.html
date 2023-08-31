@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>List of Laser Sources</h1>
+        <a href="{% url "laser_color_marking_db:add_laser_source" %}" class="btn btn-primary">Add Laser Source</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Wavelength</th>
+                    <th scope="col">Type of Laser</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for laser_source in laser_sources %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ laser_source.name }}</td>
+                        <td>{{ laser_source.wavelength }}</td>
+                        <td>{{ laser_source.type_of_laser }}</td>
+                        <td>
+                            <a href="{% url 'laser_color_marking_db:update_laser_source' laser_source.pk %}" class="btn btn-primary">Update</a>
+                            <form method="post" action="{% url 'laser_color_marking_db:delete_laser_source' laser_source.pk %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

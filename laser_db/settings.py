@@ -44,14 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-
-    'django_bootstrap5',
-    "pages",
-
-    "accounts",
     "bootstrap4",
     'allauth.socialaccount',
-    'laser_cm_api',
+    'django_bootstrap5',
 
     'rest_auth',
     'rest_auth.registration',
@@ -60,6 +55,10 @@ INSTALLED_APPS = [
     'rest_framework_api_key',
     'rest_framework.authtoken',  # Add this line
     'rest_framework_simplejwt',  # Add this line
+
+    "laser_color_marking_db",
+    "accounts",
+    'laser_cm_api',
 
 ]
 
@@ -101,7 +100,7 @@ ENABLE_USER_ACTIVATION = True
 DISABLE_USERNAME = False
 LOGIN_VIA_EMAIL = False
 LOGIN_VIA_EMAIL_OR_USERNAME = True
-LOGIN_REDIRECT_URL = 'pages:home'
+LOGIN_REDIRECT_URL = 'laser_color_marking_db:home'
 LOGIN_URL = 'accounts:log_in'
 USE_REMEMBER_ME = False
 
@@ -172,7 +171,7 @@ else:
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-}
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -212,6 +211,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
+SIGN_UP_FIELDS = ['username', 'first_name', 'last_name', 'email', 'password1',
+                  'password2']
 if DISABLE_USERNAME:
-    SIGN_UP_FIELDS = ['first_name', 'last_name', 'email', 'password1', 'password2']
+    SIGN_UP_FIELDS = ['first_name', 'last_name', 'email', 'password1',
+                      'password2']

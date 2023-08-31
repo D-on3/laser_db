@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView, DeleteView
-
+from django.shortcuts import render
+from .forms import RGBSearchForm
+from .models import LaserMarkingParameters
 
 from .forms import (
     GaeParamsForm,
@@ -69,11 +72,13 @@ def add_sample(request):
             )
             laser_marking_parameters.save()
             return redirect(
-                'pages:matching_colors')  # Replace with your URL name
+                'laser_color_marking_db:matching_colors')  # Replace with your URL name
     else:
         form = AddSampleForm()
 
-    return render(request, 'pages/laser_markin_parameters/add_sample.html', {'form': form})
+    return render(request,
+                  'laser_color_marking_db/laser_markin_parameters/add_sample.html',
+                  {'form': form})
 
 
 def update_material(request, pk):
@@ -101,7 +106,9 @@ def update_material(request, pk):
     else:
         form = MaterialForm(instance=material)
 
-    return render(request, 'pages/materials/update_material.html', {'form': form})
+    return render(request,
+                  'laser_color_marking_db/materials/update_material.html',
+                  {'form': form})
 
 
 def delete_material(request, pk):
@@ -111,7 +118,8 @@ def delete_material(request, pk):
         material.delete()
         return redirect('pages:laser_marking_parameters_list')
 
-    return render(request, 'pages/materials/delete_material.html',
+    return render(request,
+                  'laser_color_marking_db/materials/delete_material.html',
                   {'material': material})
 
 
@@ -134,10 +142,14 @@ def add_laser_source(request):
                 'pages:add_sample')  # Redirect to the main add sample page
     else:
         form = LaserSourceForm()
-    return render(request, 'pages/laser_sources/add_laser_source.html', {'form': form})
+    return render(request,
+                  'laser_color_marking_db/laser_sources/add_laser_source.html',
+                  {'form': form})
+
 
 from django.shortcuts import render
 from .utils import run_utils
+
 
 def run_util_code_view(request):
     """
@@ -152,7 +164,8 @@ def run_util_code_view(request):
     :return: a rendered HTML template called 'run_util_code.html'.
     """
     run_utils()  # Call the function from utils.py
-    return render(request, 'pages/run_util_code.html')
+    return render(request, 'laser_color_marking_db/run_util_code.html')
+
 
 def add_material(request):
     """
@@ -169,12 +182,44 @@ def add_material(request):
     if request.method == 'POST':
         form = MaterialForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect(
-                'pages:add_sample')  # Redirect to the main add sample page
+            # Get material name from the form
+            material_name = form.cleaned_data['name']
+
+            # Try to get the material by name or create if it doesn't exist
+            material, created = Material.objects.get_or_create(
+                name=material_name)
+
+            if created:
+                return redirect(
+                    'pages:add_sample')  # Redirect to the main add sample page
+            else:
+                # Material with the same name already exists
+                form.add_error('name',
+                               'Material with this name already exists.')
     else:
         form = MaterialForm()
-    return render(request, 'pages/materials/add_material.html', {'form': form})
+
+    return render(request,
+                  'laser_color_marking_db/materials/add_material.html',
+                  {'form': form})
+
+
+def search_by_rgb(request):
+    form = RGBSearchForm(request.POST or None)
+    results = None
+
+    if form.is_valid():
+        red = form.cleaned_data['red']
+        green = form.cleaned_data['green']
+        blue = form.cleaned_data['blue']
+
+        results = LaserMarkingParameters.objects.filter(
+            color_red=red, color_green=green, color_blue=blue
+        )
+
+    context = {'form': form, 'results': results}
+    return render(request,
+                  'laser_color_marking_db/search_logic/search_by_rgb.html', context)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -182,11 +227,10 @@ def add_material(request):
 # application.
 class UpdateView(UpdateView):
     model = LaserMarkingParameters
-    template_name = 'pages/laser_markin_parameters/laser_parameters_update.html'  # Create a template for update view
+    template_name = 'laser_color_marking_db/laser_markin_parameters/laser_parameters_update.html'  # Create a template for update view
     success_url = reverse_lazy(
         'pages:laser_marking_parameters_list')  # Redirect after successful deletion
     fields = '__all__'  # You can customize which fields to display and update
-
 
 
 # List view
@@ -202,7 +246,10 @@ def laser_source_list(request):
     context variable 'laser_sources' which contains all the LaserSource objects.
     """
     laser_sources = LaserSource.objects.all()
-    return render(request, 'pages/laser_sources/laser_source_list.html', {'laser_sources': laser_sources})
+    return render(request,
+                  'laser_color_marking_db/laser_sources/laser_source_list.html',
+                  {'laser_sources': laser_sources})
+
 
 # Update view
 # The LaserSourceUpdateView class is a view used for updating laser source
@@ -210,21 +257,25 @@ def laser_source_list(request):
 class LaserSourceUpdateView(UpdateView):
     model = LaserSource
     form_class = LaserSourceForm
-    template_name = 'pages/laser_sources/laser_source_form.html'  # Update with your template path
-    success_url = reverse_lazy('pages:laser_source_list')  # Update with your URL name
+    template_name = 'laser_color_marking_db/laser_sources/laser_source_form.html'  # Update with your template path
+    success_url = reverse_lazy(
+        'pages:laser_source_list')  # Update with your URL name
+
 
 # Delete view
 # The LaserSourceDeleteView class is a view that handles the deletion of a
 # LaserSource object.
 class LaserSourceDeleteView(DeleteView):
     model = LaserSource
-    success_url = reverse_lazy('pages:laser_source_list')  # Update with your URL name
+    success_url = reverse_lazy(
+        'pages:laser_source_list')  # Update with your URL name
+
 
 @method_decorator(login_required, name='dispatch')
 # The DeleteView class is used to delete an object in a Django application.
 class DeleteView(DeleteView):
     model = LaserMarkingParameters
-    template_name = 'pages/laser_markin_parameters/laser_parameters_delete.html'  # Create a template for delete confirmation
+    template_name = 'laser_color_marking_db/laser_markin_parameters/laser_parameters_delete.html'  # Create a template for delete confirmation
     success_url = reverse_lazy(
         'pages:laser_marking_parameters_list')  # Redirect after successful deletion
 
@@ -256,7 +307,8 @@ def search_results(request):
             rgb_color = tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
 
             if len(rgb_color) != 3:
-                return render(request, 'pages/search_logic/search_color.html',
+                return render(request,
+                              'laser_color_marking_db/search_logic/search_color.html',
                               {'form': form,
                                'error_message': 'Invalid RGB color'})
 
@@ -281,10 +333,13 @@ def search_results(request):
                 if current_color_classifier.keys() == filtered_dict.keys():
                     matching_colors.append(current_color)
 
-            return render(request, 'pages/search_logic/matching_colors.html',
+            return render(request,
+                          'laser_color_marking_db/search_logic/matching_colors.html',
                           {'form': form, 'matching_colors': matching_colors})
 
-    return render(request, 'pages/search_logic/search_color.html', {'form': form})
+    return render(request,
+                  'laser_color_marking_db/search_logic/search_color.html',
+                  {'form': form})
 
 
 def home(request):
@@ -297,7 +352,7 @@ def home(request):
     In this case, it is used to render the 'home.html' template and
     :return: the rendered HTML template 'home.html'.
     """
-    return render(request, 'pages/views/home.html')
+    return render(request, 'laser_color_marking_db/views/home.html')
 
 
 def about(request):
@@ -310,7 +365,7 @@ def about(request):
     with the request. In this code snippet, the `request` object
     :return: the rendered HTML template 'about.html'.
     """
-    return render(request, 'pages/views/about.html')
+    return render(request, 'laser_color_marking_db/views/about.html')
 
 
 def contact(request):
@@ -322,7 +377,7 @@ def contact(request):
     IP address, and any data sent with the request
     :return: the rendered HTML template for the contact page.
     """
-    return render(request, 'pages/views/contact.html')
+    return render(request, 'laser_color_marking_db/views/contact.html')
 
 
 @login_required
@@ -339,7 +394,8 @@ def material_list(request):
     """
     materials = Material.objects.all()
     context = {'materials': materials}
-    return render(request, 'pages/materials/material_list.html', context)
+    return render(request,
+                  'laser_color_marking_db/materials/material_list.html', context)
 
 
 @login_required
@@ -357,7 +413,9 @@ def laser_source_list(request):
     """
     laser_sources = LaserSource.objects.all()
     context = {'laser_sources': laser_sources}
-    return render(request, 'pages/laser_sources/laser_source_list.html', context)
+    return render(request,
+                  'laser_color_marking_db/laser_sources/laser_source_list.html',
+                  context)
 
 
 @login_required
@@ -380,8 +438,50 @@ def laser_marking_parameters_list(request):
     context = {'laser_marking_parameters': marking_parameters}
     print(context)
     return render(request,
-                  'pages/laser_markin_parameters/laser_marking_parameters_list.html',
+                  'laser_color_marking_db/laser_markin_parameters/laser_marking_parameters_list.html',
                   context)
+
+
+from django.shortcuts import render
+from django.views.generic import ListView
+from .models import LaserMarkingParameters, Material, LaserSource
+
+
+class LaserParameterListView(LoginRequiredMixin, ListView):
+    model = LaserMarkingParameters
+    template_name = 'laser_color_marking_db/laser_markin_parameters/laser_marking_parameters_list.html'
+    context_object_name = 'laser_marking_parameters'
+    ordering = 'id'  # Default ordering
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        # Get filter parameters from request
+        material_id = self.request.GET.get('material')
+        laser_source_id = self.request.GET.get('laser_source')
+
+        # Apply filters if provided
+        if material_id:
+            queryset = queryset.filter(material_id=material_id)
+        if laser_source_id:
+            queryset = queryset.filter(laser_source_id=laser_source_id)
+
+        # Apply ordering
+        queryset = queryset.order_by(self.ordering)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add materials and laser sources to the context
+        materials = Material.objects.all()
+        laser_sources = LaserSource.objects.all()
+
+        context['materials'] = materials
+        context['laser_sources'] = laser_sources
+
+        return context
 
 
 @login_required
@@ -402,5 +502,5 @@ def laser_marking_parameters_detail(request, pk):
     marking_parameters = get_object_or_404(LaserMarkingParameters, pk=pk)
     context = {'marking_parameters': marking_parameters}
     return render(request,
-                  'pages/laser_markin_parameters/laser_marking_parameters_detail.html',
+                  'laser_color_marking_db/laser_markin_parameters/laser_marking_parameters_detail.html',
                   context)

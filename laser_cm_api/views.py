@@ -2,16 +2,16 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from pages.models import LaserMarkingParameters
+from laser_color_marking_db.models import LaserMarkingParameters
 from .serializers import LaserMarkingParametersSerializer, \
     ColorSearchSerializer
-from pages.utils import ColorSpectrum, hex_to_rgb
+from laser_color_marking_db.utils import ColorSpectrum, hex_to_rgb
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from pages.models import LaserMarkingParameters
+from laser_color_marking_db.models import LaserMarkingParameters
 from .serializers import ColorSearchSerializer
-from pages.utils import ColorSpectrum
+from laser_color_marking_db.utils import ColorSpectrum
 from django.shortcuts import render
 
 

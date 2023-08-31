@@ -6,6 +6,6 @@
     <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Delete</button>
-        <a href="{% url 'pages:laser_marking_parameters_list' %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'laser_color_marking_db:laser_marking_parameters_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 {% endblock %}

@@ -6,6 +6,6 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{% url 'pages:laser_marking_parameters_list' %}" class="btn btn-secondary">Cancel</a>
+        <a href="{% url 'laser_color_marking_db:laser_marking_parameters_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 {% endblock %}

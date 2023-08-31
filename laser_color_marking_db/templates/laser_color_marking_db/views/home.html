@@ -40,7 +40,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Explore Laser Sources</h5>
                     <p class="card-text">Browse through a wide range of laser sources, from diode lasers to fiber lasers. Find the perfect fit for your laser marking needs.</p>
-                                        <a href="{% url 'pages:laser_source_list'  %}" class="btn btn-primary d-flex justify-content-center" >Explore Now!</a>
+                                        <a href="{% url 'laser_color_marking_db:laser_source_list'  %}" class="btn btn-primary d-flex justify-content-center" >Explore Now!</a>
 
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Search by Color</h5>
                     <p class="card-text">Our advanced color-based search helps you find laser sources based on RGB color values. Find the exact laser for your unique applications.</p>
-                    <a href="{% url 'pages:search_colors'  %}" class="btn btn-primary d-flex justify-content-center" >Start Searching Now!</a>
+                    <a href="{% url 'laser_color_marking_db:search_colors'  %}" class="btn btn-primary d-flex justify-content-center" >Start Searching Now!</a>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Custom Marking Parameters</h5>
                     <p class="card-text">Dive into detailed marking parameters and settings for each laser source. Get insights into power levels, wavelengths, and more.</p>
-                                        <a href="{% url 'pages:laser_marking_parameters_list'  %}" class="btn btn-primary d-flex justify-content-center" >Explore Now!</a>
+                                        <a href="{% url 'laser_color_marking_db:laser_marking_parameters_list'  %}" class="btn btn-primary d-flex justify-content-center" >Explore Now!</a>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
     <div class="card-body" style="text-align: justify">
         <h2 class="card-title">Start Exploring Today:</h2>
         <p class="card-text">Join the Laser Database community and unlock a world of laser marking solutions. Whether you're creating intricate designs, industrial markings, or artistic projects, Laser Database has you covered. Experience the future of laser technology today.</p>
-        <h3 class="card-title">Ready to Get Started? <a href="{% url 'accounts:login' %}" class="card-link">Explore Laser Database Now!</a></h3>
+        <h3 class="card-title">Ready to Get Started? <a href="{% url 'accounts:log-in' %}" class="card-link">Explore Laser Database Now!</a></h3>
     </div>
 </div>
 

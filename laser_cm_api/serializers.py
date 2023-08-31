@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from pages.models import LaserMarkingParameters
+from laser_color_marking_db.models import LaserMarkingParameters
 
 # The LaserMarkingParametersSerializer class is a serializer for laser marking
 # parameters.

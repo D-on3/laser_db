@@ -1,14 +1,14 @@
 from django.urls import path
 from .views import *
 
-app_name = "pages"
+app_name = "laser_color_marking_db"
 urlpatterns = [
     path('', home, name='home'),
     path('about/', about, name='about'),
     path('contact/', contact, name='contact'),
     path('materials/', material_list, name='material_list'),
     path('laser-sources/', laser_source_list, name='laser_source_list'),
-    path('laser-marking-parameters/', laser_marking_parameters_list,
+    path('laser-marking-parameters/', LaserParameterListView.as_view(),
          name='laser_marking_parameters_list'),
     # Add the following line for the details view
     path('laser-marking-parameters/<int:pk>/',

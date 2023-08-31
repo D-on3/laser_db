@@ -4,7 +4,7 @@
     <div class="container">
         <h1>Run Utility Code</h1>
         <p>Click the button to execute the utility code:</p>
-        <form method="post" action="{% url 'pages:run_util_code' %}">
+        <form method="post" action="{% url 'laser_color_marking_db:run_util_code' %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">Run Utility Code</button>
         </form>

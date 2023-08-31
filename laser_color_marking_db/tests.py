@@ -222,29 +222,29 @@ class PagesViewsTestCase(TestCase):
     def test_home_view(self):
         response = self.client.get(reverse('pages:home'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'pages/views/home.html')
+        self.assertTemplateUsed(response, 'laser_color_marking_db/views/home.html')
 
     def test_about_view(self):
         response = self.client.get(reverse('pages:about'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'pages/views/about.html')
+        self.assertTemplateUsed(response, 'laser_color_marking_db/views/about.html')
 
     def test_contact_view(self):
         response = self.client.get(reverse('pages:contact'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'pages/views/contact.html')
+        self.assertTemplateUsed(response, 'laser_color_marking_db/views/contact.html')
 
     def test_material_list_view(self):
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(reverse('pages:material_list'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'pages/materials/material_list.html')
+        self.assertTemplateUsed(response, 'laser_color_marking_db/materials/material_list.html')
 
     def test_add_sample_view(self):
         self.client.login(username='testuser', password='testpassword')
         response = self.client.get(reverse('pages:add_sample'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'pages/laser_markin_parameters/add_sample.html')
+        self.assertTemplateUsed(response, 'laser_color_marking_db/laser_markin_parameters/add_sample.html')
 
     # Add more view tests here...
 

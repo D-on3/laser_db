@@ -1,8 +1,8 @@
-# pages/utils.py
+# laser_color_marking_db/utils.py
 
 import colorsys
 from django.utils import timezone
-from pages.models import LaserMarkingParameters, Material, LaserSource
+from laser_color_marking_db.models import LaserMarkingParameters, Material, LaserSource
 import datetime
 import os
 import django

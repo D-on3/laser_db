@@ -208,4 +208,7 @@ Template for displaying a message after user logout. Provides a link to log in a
 
 
 
-add diameter of focus_point
+add air_assist
+add search specific color 
+add filter by machine 
+add filter by material

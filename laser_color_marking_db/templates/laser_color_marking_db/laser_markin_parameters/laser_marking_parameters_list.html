@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>List of Laser Marking Parameters</h1>
+
+ <div class="container">
+    <h4>Laser Marking Parameters List</h4>
+
+    <form method="get">
+        <div class="form-group">
+            <label for="material">Material:</label>
+            <select name="material" class="form-control">
+                <option value="">All Materials</option>
+                {% for material in materials %}
+                    <option value="{{ material.id }}">{{ material.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="laser_source">Laser Source:</label>
+            <select name="laser_source" class="form-control">
+                <option value="">All Laser Sources</option>
+                {% for laser_source in laser_sources %}
+                    <option value="{{ laser_source.id }}">{{ laser_source.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br><br>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+{#    <hr>#}
+{##}
+{#    <div class="sort--sort--324BGff">#}
+{#        <span class="sort--t--3XzOx8m">Sort by:</span>#}
+{#        <div class="sort--sortSpan--1-ARFgu">#}
+{#            <a href="{% url 'laser_color_marking_db:laser_marking_parameters_list' %}?ordering=id" class="sort--sortItem--1fmumLZ">ID</a>#}
+{#            <a href="{% url 'laser_color_marking_db:laser_marking_parameters_list' %}?ordering=material" class="sort--sortItem--1fmumLZ">Material</a>#}
+{#            <a href="{% url 'laser_color_marking_db:laser_marking_parameters_list' %}?ordering=laser_source" class="sort--sortItem--1fmumLZ">Laser Source</a>#}
+{#            <!-- Add more sorting options here -->#}
+{#        </div>#}
+{#    </div>#}
+{##}
+{#    <hr>#}
+    <table class="table table-bordered">
+        <tr>
+            <th>Material</th>
+            <th>Laser Source</th>
+            <th>Laser Source Wavelength</th>
+            <th>Scanning Speed</th>
+            <th>Average Power</th>
+            <th>Scan Step</th>
+            <th>Pulse Duration</th>
+            <th>Pulse Repetition Rate</th>
+            <th>Focus</th>
+            <th>Author</th>
+            <th>Research Date</th>
+            <th>Color of the Mark</th>
+            <th>Details</th>
+        </tr>
+        {% for marking_parameters in laser_marking_parameters %}
+            <tr>
+                <td>{{ marking_parameters.material }}</td>
+                <td>{{ marking_parameters.laser_source }}</td>
+                <td>{{ marking_parameters.laser_source.wavelength }}</td>
+                <td>{{ marking_parameters.scanning_speed }}</td>
+                <td>{{ marking_parameters.average_power }}</td>
+                <td>{{ marking_parameters.scan_step }}</td>
+                <td>{{ marking_parameters.pulse_duration }}</td>
+                <td>{{ marking_parameters.pulse_repetition_rate }}</td>
+                <td>{{ marking_parameters.focus }}</td>
+                <td>{{ marking_parameters.authors }}</td>
+                <td>{{ marking_parameters.research_date.year }}</td>
+                <td style="background-color: rgb({{ marking_parameters.color_red }},
+                                                 {{ marking_parameters.color_green }},
+                                                 {{ marking_parameters.color_blue }});
+                            border: 1px solid black;">
+                    &nbsp;
+
+                <td><a href="{% url 'laser_color_marking_db:laser_marking_parameters_detail' marking_parameters.id %}" class="btn btn-primary">Details</a></td>
+
+                    <td><a href="{% url 'laser_color_marking_db:update_view' marking_parameters.pk %}" class="btn btn-warning btn-sm">Update</a><td>
+                 <td>   <a href="{% url 'laser_color_marking_db:delete_view' marking_parameters.pk %}" class="btn btn-danger btn-sm">Delete</a><td>
+
+            </tr>
+
+        {% endfor %}
+    </table>
+             </div>
+{% endblock %}

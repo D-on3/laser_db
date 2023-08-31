@@ -20,7 +20,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'pages:home' %}">LaserDB</a>
+        <a class="navbar-brand" href="{% url 'laser_color_marking_db:home' %}">LaserDB</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown"
             aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -30,10 +30,10 @@
                 {% if request.user.is_authenticated %}
                 {% if request.user.is_superuser %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'pages:about' %}">About Us</a>
+                    <a class="nav-link" href="{% url 'laser_color_marking_db:about' %}">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'pages:contact' %}">Contact Us</a>
+                    <a class="nav-link" href="{% url 'laser_color_marking_db:contact' %}">Contact Us</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-bs-toggle="dropdown"
@@ -41,10 +41,10 @@
                         Databases
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="pagesDropdown">
-                        <li><a class="dropdown-item" href="{% url 'pages:home' %}">Home</a></li>
-                        <li><a class="dropdown-item" href="{% url 'pages:material_list' %}">Material List</a></li>
-                        <li><a class="dropdown-item" href="{% url 'pages:laser_source_list' %}">Laser Sources</a></li>
-                        <li><a class="dropdown-item" href="{% url 'pages:laser_marking_parameters_list' %}">Laser Marking Parameters</a></li>
+                        <li><a class="dropdown-item" href="{% url 'laser_color_marking_db:home' %}">Home</a></li>
+                        <li><a class="dropdown-item" href="{% url 'laser_color_marking_db:material_list' %}">Material List</a></li>
+                        <li><a class="dropdown-item" href="{% url 'laser_color_marking_db:laser_source_list' %}">Laser Sources</a></li>
+                        <li><a class="dropdown-item" href="{% url 'laser_color_marking_db:laser_marking_parameters_list' %}">Laser Marking Parameters</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -72,10 +72,10 @@
                 {% endif %}
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:login' %}">Log In</a>
+                    <a class="nav-link" href="{% url 'accounts:log-in' %}">Log In</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:login' %}">Create an Account</a>
+                    <a class="nav-link" href="{% url 'accounts:log-in' %}">Create an Account</a>
                 </li>
                 {% endif %}
             </ul>
