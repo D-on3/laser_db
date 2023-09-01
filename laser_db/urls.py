@@ -31,7 +31,9 @@ urlpatterns = [
     path('api/', include(('laser_cm_api.urls', 'laser_cm_api'),
                          namespace='laser_cm_api')),
     path('acc/', include('accounts.urls', namespace='accounts')),
-    path('laser_optimization/', include('laser_cm_optimisation.urls',namespace="laser_optimisation")),
+    # path('acc/', include('django.contrib.auth.urls')),
+    path('laser_optimization/', include('laser_cm_optimisation.urls',
+                                        namespace="laser_optimisation")),
 
 ]
 

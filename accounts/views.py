@@ -153,7 +153,7 @@ class ActivateView(View):
 
         messages.success(request, _('You have successfully activated your account!'))
 
-        return redirect('accounts:log_in')
+        return redirect('accounts:login')
 
 
 class ResendActivationCodeView(GuestOnlyView, FormView):
@@ -325,7 +325,7 @@ class RestorePasswordConfirmView(BasePasswordResetConfirmView):
 
         messages.success(self.request, _('Your password has been set. You may go ahead and log in now.'))
 
-        return redirect('accounts:log_in')
+        return redirect('accounts:login')
 
 
 class RestorePasswordDoneView(BasePasswordResetDoneView):

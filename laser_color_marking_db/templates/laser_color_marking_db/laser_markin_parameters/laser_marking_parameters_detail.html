@@ -61,5 +61,57 @@
             </td>
         </tr>
     </table>
+    <table class="table table-bordered">
+
+   <tr>
+        <th>Attribute</th>
+        <th>Calculated Value</th>
+    </tr>
+    <tr>
+        <td>Volumetric Density of Energy</td>
+        <td>{{ marking_parameters.calculated_volumetric_density_of_energy }}</td>
+    </tr>
+    <tr>
+        <td>Beam Area</td>
+        <td>{{ marking_parameters.calculated_beam_area }}</td>
+    </tr>
+    <tr>
+        <td>Repetition Rate</td>
+        <td>{{ marking_parameters.calculated_repetition_rate }}</td>
+    </tr>
+    <tr>
+        <td>Brightness</td>
+        <td>{{ marking_parameters.calculated_brightness }}</td>
+    </tr>
+    <tr>
+        <td>Power Density</td>
+        <td>{{ marking_parameters.calculated_power_density }}</td>
+    </tr>
+    <tr>
+        <td>Pulse Energy</td>
+        <td>{{ marking_parameters.calculated_pulse_energy }}</td>
+    </tr>
+    <tr>
+        <td>Volumetric Energy Density</td>
+        <td>{{ marking_parameters.calculated_volumetric_energy_density }}</td>
+    </tr>
+    <tr>
+        <td>Brightness Color</td>
+        <td>{{ marking_parameters.calculated_brightness_color }}</td>
+    </tr>
+    <tr>
+        <td>Intensity</td>
+        <td>{{ marking_parameters.calculated_intensity }}</td>
+    </tr>
+    <tr>
+        <td>Energy Density</td>
+        <td>{{ marking_parameters.calculated_energy_density }}</td>
+    </tr>
+    <tr>
+        <td>Color Intensity</td>
+        <td>{{ marking_parameters.calculated_color_intensity }}</td>
+    </tr>
+
+    </table>
     <a href="{% url 'laser_color_marking_db:laser_marking_parameters_list' %}">Back to List</a>
 {% endblock %}

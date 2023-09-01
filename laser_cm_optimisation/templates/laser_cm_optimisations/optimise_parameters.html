@@ -15,7 +15,7 @@
       <option value="{{ laser_source.id }}">{{ laser_source.name }}</option>
     {% endfor %}
   </select><br>
-  <button type="submit">Optimize</button>
+  <button href="{% url 'laser_cm_optimisation:plot' %}" type="submit">Optimize</button>
 </form>
 
 {% if optimized_parameters %}
@@ -24,7 +24,7 @@
     <li>Parameter 1: {{ optimized_parameters.0 }}</li>
     <li>Parameter 2: {{ optimized_parameters.1 }}</li>
     <li>Parameter 3: {{ optimized_parameters.2 }}</li>
-  <li> <button href="{% url "laser_cm_optimisation:plot" %}">show results</button></li>
+
   </ul>
 {% endif %}
 

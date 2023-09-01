@@ -38,20 +38,51 @@ class LaserMarkingParameters(models.Model):
     authors = models.CharField(max_length=100)
     research_date = models.DateTimeField(default=timezone.now)
 
+
+    # calculated values
+    calculated_volumetric_density_of_energy = models.FloatField(blank=True, null=True)
+    calculated_beam_area = models.FloatField(blank=True, null=True)
+    calculated_repetition_rate = models.FloatField(blank=True, null=True)
+    calculated_brightness = models.FloatField(blank=True, null=True)
+    calculated_power_density = models.FloatField(blank=True, null=True)
+    calculated_pulse_energy = models.FloatField(blank=True, null=True)
+    calculated_volumetric_energy_density = models.FloatField(blank=True, null=True)
+    calculated_brightness_color = models.FloatField(blank=True, null=True)
+    calculated_intensity = models.FloatField(blank=True, null=True)
+    calculated_energy_density = models.FloatField(blank=True, null=True)
+    calculated_color_intensity = models.FloatField(blank=True, null=True)
+
+    # ... existing methods ...
+
+    def save(self, *args, **kwargs):
+        """
+        Override the save method to calculate and assign values to new attributes before saving.
+        """
+
+
+        super().save(*args, **kwargs)
+
+
+
     def __str__(self):
         return f"{self.material} - {self.laser_source}"
 
     def calculate_volumetric_density_of_energy(self):
         """
-        Calculate and return the volumetric density of energy.
-        Volumetric Density of Energy (VDE) = Average Power / (Scanning Speed * Scan Step)
+        Calculate and return the volumetric energy density using average power and focus.
         """
-        if self.average_power is not None and self.scanning_speed is not None and self.scan_step is not None:
+        """
+        Calculate and return the volumetric energy density using average power and focus.
+        """
+        if self.average_power is not None and self.focus is not None :
             if isinstance(self.average_power, Decimal) and isinstance(
-                    self.scanning_speed, int) and isinstance(self.scan_step,
-                                                             float):
-                return self.average_power / (self.scanning_speed * Decimal(
-                    str(self.scan_step)))
+                    self.focus, float):
+                if self.focus != 0:
+                    try:
+                        return self.average_power / Decimal(str(self.focus))
+                    except ZeroDivisionError:
+                        print(f"Sample name: {self.laser_source} {self.authors} {self.focus}")
+
         return None
 
     def calculate_beam_area(self):

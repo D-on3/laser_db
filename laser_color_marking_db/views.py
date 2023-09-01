@@ -102,7 +102,7 @@ def update_material(request, pk):
         form = MaterialForm(request.POST, instance=material)
         if form.is_valid():
             form.save()
-            return redirect('pages:laser_marking_parameters_list')
+            return redirect('laser_color_marking_db:laser_marking_parameters_list')
     else:
         form = MaterialForm(instance=material)
 
@@ -116,7 +116,7 @@ def delete_material(request, pk):
 
     if request.method == 'POST':
         material.delete()
-        return redirect('pages:laser_marking_parameters_list')
+        return redirect('laser_color_marking_db:laser_marking_parameters_list')
 
     return render(request,
                   'laser_color_marking_db/materials/delete_material.html',
@@ -139,7 +139,7 @@ def add_laser_source(request):
         if form.is_valid():
             form.save()
             return redirect(
-                'pages:add_sample')  # Redirect to the main add sample page
+                'laser_color_marking_db:add_sample')  # Redirect to the main add sample page
     else:
         form = LaserSourceForm()
     return render(request,
@@ -150,6 +150,31 @@ def add_laser_source(request):
 from django.shortcuts import render
 from .utils import run_utils
 
+from .models import LaserMarkingParameters
+
+def update_calculated_attributes_for_all(request):
+    # Retrieve all instances of LaserMarkingParameters from the database
+    all_instances = LaserMarkingParameters.objects.all()
+
+    for instance in all_instances:
+        # Update the calculated attributes
+        instance.calculated_volumetric_density_of_energy = instance.calculate_volumetric_density_of_energy()
+        instance.calculated_beam_area = instance.calculate_beam_area()
+        instance.calculated_repetition_rate = instance.calculate_repetition_rate()
+        instance.calculated_brightness = instance.calculate_brightness()
+        instance.calculated_power_density = instance.calculate_power_density()
+        instance.calculated_pulse_energy = instance.calculate_pulse_energy()
+        instance.calculated_volumetric_energy_density = instance.calculate_volumetric_energy_density()
+        instance.calculated_brightness_color = instance.calculate_brightness_color()
+        instance.calculated_intensity = instance.calculate_intensity()
+        instance.calculated_energy_density = instance.calculate_energy_density()
+        instance.calculated_color_intensity = instance.calculate_color_intensity()
+
+        # Save the instance with updated calculated attributes
+        instance.save()
+        redirect('laser_color_marking_db:laser_marking_parameters_list')
+
+    return render(request, 'laser_color_marking_db/views/home.html', {'message': 'Calculated attributes updated for all entries'})
 
 def run_util_code_view(request):
     """
@@ -163,7 +188,9 @@ def run_util_code_view(request):
     generate a response
     :return: a rendered HTML template called 'run_util_code.html'.
     """
+
     run_utils()  # Call the function from utils.py
+    update_calculated_attributes_for_all(request)
     return render(request, 'laser_color_marking_db/run_util_code.html')
 
 
@@ -191,7 +218,7 @@ def add_material(request):
 
             if created:
                 return redirect(
-                    'pages:add_sample')  # Redirect to the main add sample page
+                    'laser_color_marking_db:add_sample')  # Redirect to the main add sample page
             else:
                 # Material with the same name already exists
                 form.add_error('name',
@@ -229,7 +256,7 @@ class UpdateView(UpdateView):
     model = LaserMarkingParameters
     template_name = 'laser_color_marking_db/laser_markin_parameters/laser_parameters_update.html'  # Create a template for update view
     success_url = reverse_lazy(
-        'pages:laser_marking_parameters_list')  # Redirect after successful deletion
+        'laser_color_marking_db:laser_marking_parameters_list')  # Redirect after successful deletion
     fields = '__all__'  # You can customize which fields to display and update
 
 
@@ -259,7 +286,7 @@ class LaserSourceUpdateView(UpdateView):
     form_class = LaserSourceForm
     template_name = 'laser_color_marking_db/laser_sources/laser_source_form.html'  # Update with your template path
     success_url = reverse_lazy(
-        'pages:laser_source_list')  # Update with your URL name
+        'laser_color_marking_db:laser_source_list')  # Update with your URL name
 
 
 # Delete view
@@ -268,7 +295,7 @@ class LaserSourceUpdateView(UpdateView):
 class LaserSourceDeleteView(DeleteView):
     model = LaserSource
     success_url = reverse_lazy(
-        'pages:laser_source_list')  # Update with your URL name
+        'laser_color_marking_db:laser_source_list')  # Update with your URL name
 
 
 @method_decorator(login_required, name='dispatch')
@@ -277,7 +304,7 @@ class DeleteView(DeleteView):
     model = LaserMarkingParameters
     template_name = 'laser_color_marking_db/laser_markin_parameters/laser_parameters_delete.html'  # Create a template for delete confirmation
     success_url = reverse_lazy(
-        'pages:laser_marking_parameters_list')  # Redirect after successful deletion
+        'laser_color_marking_db:laser_marking_parameters_list')  # Redirect after successful deletion
 
 
 def search_results(request):
@@ -504,3 +531,4 @@ def laser_marking_parameters_detail(request, pk):
     return render(request,
                   'laser_color_marking_db/laser_markin_parameters/laser_marking_parameters_detail.html',
                   context)
+
