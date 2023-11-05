@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ymnex2%n6limpu=rb*5#!w$tqqjauy39x6ifd0)v#f9d9=*+qf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 #
 ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
 # ALLOWED_HOSTS = []
@@ -154,15 +154,15 @@ WSGI_APPLICATION = 'laser_db.wsgi.application'
 #
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-# if DEBUG:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
-# else:
-DATABASES = {
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'laserparams$default',
