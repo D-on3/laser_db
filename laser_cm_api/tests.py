@@ -2,7 +2,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from django.test import TestCase
 from django.urls import reverse
-from pages.models import LaserMarkingParameters
+from laser_color_marking_db.models import LaserMarkingParameters
 
 class LaserMarkingParametersAPITest(TestCase):
     def setUp(self):

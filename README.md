@@ -212,3 +212,108 @@ add air_assist
 add search specific color 
 add filter by machine 
 add filter by material
+
+# Laser Color Marking API Documentation
+
+Welcome to the Laser Color Marking API. This API allows you to interact with laser marking parameters and perform color-based searches. Below, you'll find detailed information about the available endpoints and how to use them.
+
+## Endpoints
+
+### /marking-parameters/
+
+- **Method**: GET
+- **Description**: Get a list of laser marking parameters.
+- **Parameters**:
+  - `hex_color` (optional): Filter parameters by a specific hex color.
+- **Response**:
+  - Status Code: 200 OK
+  - Body: A list of laser marking parameters matching the specified hex color or all parameters if no color is provided.
+
+### /marking-parameters/<int:pk>/
+
+- **Method**: GET
+- **Description**: Retrieve details of a specific laser marking parameter.
+- **Parameters**:
+  - `pk`: The primary key of the parameter to retrieve.
+- **Response**:
+  - Status Code: 200 OK
+  - Body: Details of the specified laser marking parameter.
+
+### /search-color/
+
+- **Method**: POST
+- **Description**: Perform a color-based search.
+- **Request Body**:
+  - `hex_color`: The hex color to search for.
+- **Response**:
+  - Status Code: 200 OK
+  - Body: A list of laser marking parameters matching the provided hex color.
+
+### /docs/
+
+- **Method**: GET
+- **Description**: Landing page for the Laser Color Marking API.
+
+## Views
+
+### LaserMarkingParametersList
+
+- **Description**: This view allows you to retrieve a list of laser marking parameters. If a `hex_color` parameter is provided, it filters parameters based on the specified color.
+
+- **Example**:
+  - Request: `GET /marking-parameters/?hex_color=#FF0000`
+  - Response: A list of laser marking parameters with the color matching #FF0000.
+
+### LaserMarkingParametersDetail
+
+- **Description**: Retrieve details of a specific laser marking parameter using its primary key.
+
+- **Example**:
+  - Request: `GET /marking-parameters/1/`
+  - Response: Details of the laser marking parameter with ID 1.
+
+### ColorSearchAPIView
+
+- **Description**: This view allows you to perform color-based searches. It classifies hex colors based on a color spectrum and matches them with colors in the database.
+
+- **Example**:
+  - Request:
+    ```json
+    POST /search-color/
+    {
+      "hex_color": "#00FF00"
+    }
+    ```
+  - Response: A list of laser marking parameters with colors matching #00FF00.
+
+### Landing Page
+
+- **Description**: This view renders the landing page for the Laser Color Marking API.
+
+- **Example**:
+  - Request: `GET /docs/`
+  - Response: The API landing page with information about the API.
+
+## Models
+
+- **Material**:
+  - Fields: `name`, `description`
+  - Represents a material used in laser color marking.
+
+- **LaserSource**:
+  - Fields: `name`, `type_of_laser`, `wavelength`
+  - Represents the source of the laser used for marking.
+
+- **LaserMarkingParameters**:
+  - Fields: Various parameters such as `laser_source`, `material`, `scanning_speed`, `average_power`, and more.
+  - Represents specific laser marking parameters.
+
+The provided models represent core data structures in the database.
+
+## Usage
+
+To use the Laser Color Marking API, you can make HTTP requests to the specified endpoints. Make sure to include any required parameters and handle the responses accordingly.
+
+For more detailed information about data serialization and expected request/response formats, consider implementing serializers to handle data conversion between models and JSON data.
+
+If you have any further questions or need assistance with specific functionalities, please don't hesitate to ask.
