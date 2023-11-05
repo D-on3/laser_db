@@ -165,7 +165,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'laserparams$laser_db',
+            'NAME': 'laserparams$default',
             'USER': 'laserparams',
             'PASSWORD': "enodve34",
             'HOST': 'laserparams.mysql.pythonanywhere-services.com',
