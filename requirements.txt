@@ -12,5 +12,6 @@ djangorestframework-api-key
 django-bootstrap4
 django-avatar
 django-countries
-mysqlclient
 django-allauth
+django-extensions
+mysqlclient
