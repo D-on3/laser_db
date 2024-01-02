@@ -1,5 +1,5 @@
 # laser_db
-# The project is running on python 3.10 with django 4.2
+# The project is running on python 3.10 with django 4.2.7
 
 Certainly, let's go through the explanation and break down how each step was implemented:
 
