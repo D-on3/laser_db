@@ -119,6 +119,62 @@ def get_author(value):
     return value
 
 
+
+from datetime import datetime
+
+
+def parse_data_string_1(data_string):
+    """
+    The function `parse_data_string` takes a data string as input, parses it into
+    individual values, and creates a list of LaserMarkingParameters objects based
+    on the parsed values.
+
+    :param data_string: The `data_string` parameter is a string that contains
+    multiple lines of data, where each line represents a set of parameters for
+    laser marking. Each line is comma-separated and contains the following values:
+    :return: The function `parse_data_string` returns a list of
+    `LaserMarkingParameters` objects.
+    """
+
+    def create_laser_parameters(parts):
+        color_red, color_green, color_blue = map(get_value, parts[:3])
+        material_name, laser_type_name = map(get_value, parts[3:5])
+        wavelength, scanning_speed, average_power, scan_step = map(get_value, parts[5:9])
+        pulse_duration, pulse_repetition_rate, focus = map(get_value, parts[9:12])
+        authors = get_author(parts[12])
+        research_date = timezone.make_aware(
+            datetime.strptime(get_value(parts[13]), "%Y"),
+            timezone.get_current_timezone()
+        )
+
+        laser_source_obj, _ = LaserSource.objects.get_or_create(
+            name=laser_type_name,
+            type_of_laser=laser_type_name,
+            wavelength=int(wavelength)
+        )
+
+        material_obj, _ = Material.objects.get_or_create(name=material_name)
+
+        laser_parameters = LaserMarkingParameters(
+            laser_source=laser_source_obj,
+            material=material_obj,
+            scanning_speed=scanning_speed,
+            average_power=average_power,
+            scan_step=scan_step,
+            pulse_duration=pulse_duration,
+            pulse_repetition_rate=pulse_repetition_rate,
+            focus=focus,
+            authors=authors,
+            research_date=research_date,
+            color_red=color_red,
+            color_green=color_green,
+            color_blue=color_blue
+        )
+
+        return laser_parameters
+
+    return [create_laser_parameters(line.split(',')) for line in data_string.strip().split('\n')]
+
 def parse_data_string(data_string):
     """
     The function `parse_data_string` takes a data string as input, parses it into
