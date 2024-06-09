@@ -331,6 +331,14 @@ class RestorePasswordConfirmView(BasePasswordResetConfirmView):
 class RestorePasswordDoneView(BasePasswordResetDoneView):
     template_name = 'accounts/restore_password_done.html'
 
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LogoutView as BaseLogoutView
+from django.shortcuts import redirect
 
 class LogOutView(LoginRequiredMixin, BaseLogoutView):
-    template_name = 'accounts/log_out.html'
+    def get(self, request, *args, **kwargs):
+        # Log out the user
+        response = super().get(request, *args, **kwargs)
+        # Redirect to the desired URL after logout
+        return redirect('laser_color_marking_db:home')
+
