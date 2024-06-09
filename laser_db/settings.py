@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-ymnex2%n6limpu=rb*5#!w$tqqjauy39x6ifd0)v#f9d9=*+qf
 DEBUG = False
 #
 ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
-# ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = []
 
 # Application definition
 
