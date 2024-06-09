@@ -28,6 +28,8 @@
             </div>
             <br><br>
             <button type="submit" class="btn btn-primary">Search</button>
+                        <a href="{% url 'laser_color_marking_db:add_sample' marking_parameters.pk %}"
+                           class="btn btn-danger btn-sm">Delete</a>
         </form>
 
         {#    <hr>#}
@@ -82,10 +84,10 @@
                         <a href="{% url 'laser_color_marking_db:laser_marking_parameters_detail' marking_parameters.id %}"
                            class="btn btn-primary">Details</a></td>
 
-                    <td>
-                        <a href="{% url 'laser_color_marking_db:update_view' marking_parameters.pk %}"
-                           class="btn btn-warning btn-sm">Update</a>
-                    </td>
+{#                    <td>#}
+{#                        <a href="{% url 'laser_color_marking_db:update_view' marking_parameters.pk %}"#}
+{#                           class="btn btn-warning btn-sm">Update</a>#}
+{#                    </td>#}
                     <td>
                         <a href="{% url 'laser_color_marking_db:delete_view' marking_parameters.pk %}"
                            class="btn btn-danger btn-sm">Delete</a>
