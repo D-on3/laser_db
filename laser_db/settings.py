@@ -28,8 +28,8 @@ SECRET_KEY = 'django-insecure-ymnex2%n6limpu=rb*5#!w$tqqjauy39x6ifd0)v#f9d9=*+qf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 #
-ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
-# ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['laserparams.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -164,7 +164,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'laserparams$default',
+            'NAME': 'laserparams$laser_params',
             'USER': 'laserparams',
             'PASSWORD': "enodve34",
             'HOST': 'laserparams.mysql.pythonanywhere-services.com',
