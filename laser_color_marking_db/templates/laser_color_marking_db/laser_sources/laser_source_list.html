@@ -22,7 +22,6 @@
                         <td>{{ laser_source.wavelength }}</td>
                         <td>{{ laser_source.type_of_laser }}</td>
                         <td>
-                            <a href="{% url 'laser_color_marking_db:update_laser_source' laser_source.pk %}" class="btn btn-primary">Update</a>
                             <form method="post" action="{% url 'laser_color_marking_db:delete_laser_source' laser_source.pk %}" style="display: inline;">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">Delete</button>
