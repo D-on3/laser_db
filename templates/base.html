@@ -15,6 +15,8 @@
 
 <body>
 
+<!--NAVBAR-->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'laser_color_marking_db:home' %}">LaserDB</a>
@@ -48,29 +50,31 @@
                     <a class="nav-link" href="{% url 'laser_cm_api:docs' %}">API Documentation</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:change_password' %}">Change password</a>
+                    <a class="nav-link" href="{% url 'accounts:change_password' %}">Change Password</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:change_profile' %}">Change profile</a>
+                    <a class="nav-link" href="{% url 'accounts:change_profile' %}">Change Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:change_email' %}">Change email</a>
+                    <a class="nav-link" href="{% url 'accounts:change_email' %}">Change Email</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'accounts:logout' %}">Log out</a>
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">Log Out</a>
                 </li>
+                {% endif %}
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'accounts:log_in' %}">Log In</a>
                 </li>
-
-                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'accounts:log_in' %}">Create an Account</a>
+                </li>
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
-
+<!--END OF NAVBAR-->
 
     {% block content %}
     {% endblock %}
